@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: GeoSocialPy
+Version: 0.1
+Summary: A Python library to fetch and analyze geospatial data from social media
+Home-page: https://github.com/JayeshSuryavanshi/GeoSocialPy
+Author: Jayesh Kishor Suryavanshi
+Author-email: jayeshki@buffalo.edu
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Description-Content-Type: text/markdown
