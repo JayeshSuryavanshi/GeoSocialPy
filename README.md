@@ -1,4 +1,4 @@
-# GeoSocialPy
+# GeoSocialPy (Under Development)
 
 GeoSocialPy is a Python package designed to make geospatial analysis of tweets easier. Whether you are a social scientist, a data analyst, or just someone curious about the geospatial patterns of tweets, GeoSocialPy is for you.
 
