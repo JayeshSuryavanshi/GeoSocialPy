@@ -21,3 +21,6 @@ dist/
 *.idea
 *.vscode
 .DS_Store
+
+# Output data (fetched tweets)
+tweets.json
