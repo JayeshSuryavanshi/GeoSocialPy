@@ -24,6 +24,7 @@ classifiers = [
 
 [project.optional-dependencies]
 example = ["python-dotenv"]
+maps = ["folium>=0.14"]
 
 [project.urls]
 Homepage = "https://github.com/JayeshSuryavanshi/GeoSocialPy"
