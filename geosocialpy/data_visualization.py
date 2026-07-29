@@ -32,6 +32,7 @@ class MapVisualizer:
                     "text": p.text,
                     "created_at": p.created_at,
                     "author_id": p.author_id,
+                    "source": p.source,
                 },
             }
             for p in self.points
@@ -40,7 +41,7 @@ class MapVisualizer:
 
     def save_geojson(self, path: str) -> str:
         """Write the GeoJSON ``FeatureCollection`` to ``path``."""
-        with open(path, "w") as f:
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(self.to_geojson(), f)
         return path
 

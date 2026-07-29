@@ -22,5 +22,14 @@ dist/
 *.vscode
 .DS_Store
 
-# Output data (fetched tweets)
+# Output data (fetched tweets / generated artifacts)
 tweets.json
+*.places.json
+examples/sample.geojson
+
+# Coverage
+.coverage
+htmlcov/
+
+# uv (not used for dependency management here)
+uv.lock
