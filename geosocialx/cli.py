@@ -1,4 +1,4 @@
-"""Command-line entry point for GeoSocialPy.
+"""Command-line entry point for GeoSocialX.
 
 Installed as the ``geosocialx`` console script (see ``[project.scripts]`` in
 ``pyproject.toml``). Fetches geotagged tweets within a radius and writes them to
