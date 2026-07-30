@@ -1,6 +1,6 @@
 from importlib.metadata import PackageNotFoundError, version
 
-from geosocialx.data_fetcher import TwitterDataFetcher
+from geosocialx.data_fetcher import TwitterDataFetcher, XDataFetcher
 from geosocialx.data_visualization import MapVisualizer
 from geosocialx.geospatial_analyzer import GeospatialAnalyzer
 from geosocialx.geospatial_extractor import GeoPoint, GeospatialExtractor
@@ -15,6 +15,7 @@ __all__ = [
     "GeospatialAnalyzer",
     "GeospatialExtractor",
     "MapVisualizer",
-    "TwitterDataFetcher",
+    "TwitterDataFetcher",  # deprecated alias of XDataFetcher
+    "XDataFetcher",
     "__version__",
 ]

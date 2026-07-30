@@ -38,7 +38,7 @@ class GeospatialExtractor:
       * ``geo.place_id`` — a reference to a place (city, POI, ...) with no
         exact point. It can be resolved to an approximate point if the place's
         bounding box is known (see the ``places`` argument to
-        :meth:`extract_points` and :meth:`TwitterDataFetcher.save_places_to_file`).
+        :meth:`extract_points` and :meth:`XDataFetcher.save_places_to_file`).
 
     Tweets with exact coordinates always become :class:`GeoPoint` objects; use
     :meth:`coverage` to see how many were dropped for lacking them.
