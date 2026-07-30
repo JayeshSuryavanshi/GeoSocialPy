@@ -62,6 +62,44 @@ cd GeoSocialX
 pip install .           # or:  pip install ".[example,maps,test]"
 ```
 
+## Quickstart
+
+The analysis half needs **no API key** — point it at any newline-delimited dump of X API v2 tweets and explore *where* (and *when*) they happened:
+
+```python
+from geosocialx import GeospatialExtractor, GeospatialAnalyzer, MapVisualizer
+
+ex = GeospatialExtractor()
+tweets = ex.load_tweets("tweets.json")
+print(ex.coverage(tweets))             # how much of the data is geotagged
+
+points = ex.extract_points(tweets)     # (lon, lat) points; place-only tweets included
+analyzer = GeospatialAnalyzer(points)
+print(analyzer.summary())              # count, bounding box, centroid, span_km, time range
+print(analyzer.densest_cells(top=3))   # busiest ~1 km grid cells (hotspots)
+print(analyzer.time_bins("day"))       # activity over time, e.g. {'2024-01-01': 12}
+
+MapVisualizer(points).save_geojson("tweets.geojson")   # open in any GIS or geojson.io
+```
+
+No data on hand? A complete, runnable offline demo on a bundled sample is in [`examples/analyze.py`](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/examples/analyze.py).
+
+To **fetch your own** geotagged tweets (needs an X API bearer token on a paid tier — see [Configuration](#configuration)):
+
+```python
+from geosocialx import TwitterDataFetcher
+
+fetcher = TwitterDataFetcher(bearer_token="YOUR_BEARER_TOKEN")
+tweets = fetcher.fetch_tweets("37.7749,-122.4194,10mi", count=100)  # 10 mi around SF
+fetcher.save_tweets_to_file(tweets, "tweets.json")
+```
+
+…or straight from the shell:
+
+```sh
+geosocialx --geocode "37.7749,-122.4194,10mi" --count 100 --output tweets.json
+```
+
 ## Configuration
 
 GeoSocialX needs an X API bearer token, read from the `TWITTER_BEARER_TOKEN` environment variable (loaded from a `.env` file when the `example` extra is installed):
