@@ -1,6 +1,6 @@
 """Command-line entry point for GeoSocialPy.
 
-Installed as the ``geosocialpy`` console script (see ``[project.scripts]`` in
+Installed as the ``geosocialx`` console script (see ``[project.scripts]`` in
 ``pyproject.toml``). Fetches geotagged tweets within a radius and writes them to
 a newline-delimited JSON file.
 """
@@ -13,7 +13,7 @@ import os
 import sys
 from typing import Sequence
 
-from geosocialpy.data_fetcher import TwitterDataFetcher
+from geosocialx.data_fetcher import TwitterDataFetcher
 
 
 def _load_env() -> None:
@@ -27,7 +27,7 @@ def _load_env() -> None:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        prog="geosocialpy",
+        prog="geosocialx",
         description="Fetch geotagged tweets within a radius via the X API v2.",
     )
     parser.add_argument(
@@ -55,7 +55,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise SystemExit(
             "TWITTER_BEARER_TOKEN is not set. Add it to your environment or a "
             ".env file. To read a .env file install the example extra: "
-            'pip install "geosocialpy[example]".'
+            'pip install "geosocialx[example]".'
         )
 
     fetcher = TwitterDataFetcher(bearer_token=bearer_token)

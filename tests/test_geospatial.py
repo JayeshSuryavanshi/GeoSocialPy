@@ -5,9 +5,9 @@ import os
 import tempfile
 import unittest
 
-from geosocialpy.data_visualization import MapVisualizer
-from geosocialpy.geospatial_analyzer import GeospatialAnalyzer
-from geosocialpy.geospatial_extractor import GeoPoint, GeospatialExtractor
+from geosocialx.data_visualization import MapVisualizer
+from geosocialx.geospatial_analyzer import GeospatialAnalyzer
+from geosocialx.geospatial_extractor import GeoPoint, GeospatialExtractor
 
 HAS_FOLIUM = importlib.util.find_spec("folium") is not None
 
