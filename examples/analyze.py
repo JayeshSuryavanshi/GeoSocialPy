@@ -31,6 +31,7 @@ def main() -> None:
     analyzer = GeospatialAnalyzer(points)
     print("summary:", analyzer.summary())
     print("densest cells:", analyzer.densest_cells(cell_size_deg=0.05, top=3))
+    print("time bins:", analyzer.time_bins(freq="day"))
 
     out = os.path.join(HERE, "sample.geojson")
     MapVisualizer(points).save_geojson(out)
