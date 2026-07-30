@@ -6,6 +6,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- A Colab quickstart notebook (`examples/quickstart.ipynb`) and an "Open in
+  Colab" badge — run the offline pipeline in-browser with no install or API key.
+
 ## [0.5.0]
 
 ### Changed
