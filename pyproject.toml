@@ -59,5 +59,8 @@ packages = ["geosocialx"]
 module = ["tweepy.*", "folium.*", "dotenv.*"]
 ignore_missing_imports = true
 
+[tool.coverage.run]
+source = ["geosocialx"]
+
 [tool.coverage.report]
 fail_under = 90
