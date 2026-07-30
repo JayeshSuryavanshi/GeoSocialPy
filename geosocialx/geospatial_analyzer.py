@@ -4,7 +4,7 @@ import math
 from collections import Counter
 from typing import Iterable
 
-from geosocialpy.geospatial_extractor import GeoPoint
+from geosocialx.geospatial_extractor import GeoPoint
 
 _EARTH_RADIUS_KM = 6371.0088
 
@@ -52,7 +52,10 @@ class GeospatialAnalyzer:
             math.sin(dlat / 2) ** 2
             + math.cos(rlat1) * math.cos(rlat2) * math.sin(dlon / 2) ** 2
         )
-        return 2 * _EARTH_RADIUS_KM * math.asin(math.sqrt(a))
+        # Clamp to guard against floating-point rounding pushing ``a`` slightly
+        # above 1.0 for near-antipodal points, which would make asin() raise a
+        # math-domain error. The clamp is a no-op for every in-range input.
+        return 2 * _EARTH_RADIUS_KM * math.asin(math.sqrt(min(1.0, a)))
 
     def points_within(
         self, longitude: float, latitude: float, radius_km: float
@@ -71,8 +74,12 @@ class GeospatialAnalyzer:
         """Bin points into a lat/lon grid and return the busiest cells.
 
         Each result is ``((cell_min_lon, cell_min_lat), count)``, ordered by
-        descending count. ``cell_size_deg`` of 0.01 is roughly a 1 km grid at
-        mid-latitudes. A lightweight hotspot finder with no clustering deps.
+        descending count. Cells are equal in *degrees*, not equal in area: a
+        cell spans ~111 km * ``cell_size_deg`` north-south, but only
+        ~111 km * ``cell_size_deg`` * cos(latitude) east-west, so ``0.01`` deg is
+        ~1.1 km tall and ~1.1*cos(lat) km wide. It is a lightweight within-city
+        hotspot finder (no clustering deps), not an equal-area density estimate,
+        and it distorts as you compare cells across very different latitudes.
         """
         if cell_size_deg <= 0:
             raise ValueError("cell_size_deg must be positive")
