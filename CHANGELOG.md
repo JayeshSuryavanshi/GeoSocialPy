@@ -6,6 +6,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.5.0]
+
+### Changed
+- Set the PyPI display name to **GeoSocialX** (the distribution metadata `Name`).
+  Install and import are unchanged — PyPI names are case-insensitive, so
+  `pip install geosocialx` / `import geosocialx` stay the same.
+
+### Added
+- A rendered example heatmap in the README (`docs/example-map.png`), plus a
+  richer bundled sample so `examples/analyze.py` produces a fuller map.
+
 ## [0.4.0]
 
 ### Changed
@@ -77,7 +88,8 @@ the GitHub repository was still named `GeoSocialPy`.
 Initial release (2023): fetch geotagged tweets by geographic radius and save
 them, built on the legacy v1.1 API.
 
-[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/releases/tag/v0.2.0
