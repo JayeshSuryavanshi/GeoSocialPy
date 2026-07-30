@@ -68,6 +68,8 @@ pip install .           # or:  pip install ".[example,maps,test]"
 
 ## Quickstart
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JayeshSuryavanshi/GeoSocialX/blob/main/examples/quickstart.ipynb) — **run the whole pipeline in your browser, no install and no API key.**
+
 The analysis half needs **no API key** — point it at any newline-delimited dump of X API v2 tweets and explore *where* (and *when*) they happened:
 
 ```python
