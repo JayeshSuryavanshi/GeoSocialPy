@@ -71,15 +71,15 @@ from geosocialx import GeospatialExtractor, GeospatialAnalyzer, MapVisualizer
 
 ex = GeospatialExtractor()
 tweets = ex.load_tweets("tweets.json")
-print(ex.coverage(tweets))             # how much of the data is geotagged
+print(ex.coverage(tweets))  # how much of the data is geotagged
 
-points = ex.extract_points(tweets)     # (lon, lat) points; place-only tweets included
+points = ex.extract_points(tweets)  # (lon, lat) points; place-only tweets included
 analyzer = GeospatialAnalyzer(points)
-print(analyzer.summary())              # count, bounding box, centroid, span_km, time range
-print(analyzer.densest_cells(top=3))   # busiest ~1 km grid cells (hotspots)
-print(analyzer.time_bins("day"))       # activity over time, e.g. {'2024-01-01': 12}
+print(analyzer.summary())  # count, bounding box, centroid, span_km, time range
+print(analyzer.densest_cells(top=3))  # busiest ~1 km grid cells (hotspots)
+print(analyzer.time_bins("day"))  # activity over time, e.g. {'2024-01-01': 12}
 
-MapVisualizer(points).save_geojson("tweets.geojson")   # open in any GIS or geojson.io
+MapVisualizer(points).save_geojson("tweets.geojson")  # open in any GIS or geojson.io
 ```
 
 No data on hand? A complete, runnable offline demo on a bundled sample is in [`examples/analyze.py`](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/examples/analyze.py).
