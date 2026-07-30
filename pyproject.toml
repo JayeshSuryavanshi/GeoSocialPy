@@ -34,10 +34,10 @@ test = ["coverage[toml]>=7"]
 geosocialx = "geosocialx.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/JayeshSuryavanshi/GeoSocialPy"
-Repository = "https://github.com/JayeshSuryavanshi/GeoSocialPy"
-Issues = "https://github.com/JayeshSuryavanshi/GeoSocialPy/issues"
-Changelog = "https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/JayeshSuryavanshi/GeoSocialX"
+Repository = "https://github.com/JayeshSuryavanshi/GeoSocialX"
+Issues = "https://github.com/JayeshSuryavanshi/GeoSocialX/issues"
+Changelog = "https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["geosocialx*"]
