@@ -40,21 +40,27 @@ Optional extras:
 
 ## Installation
 
+### From PyPI
+
+GeoSocialPy is published on PyPI under the distribution name **`geosocialx`** (the import name is `geosocialx` too):
+
+```sh
+pip install geosocialx
+```
+
+With optional extras (comma-separated):
+
+```sh
+pip install "geosocialx[example,maps,test]"
+```
+
 ### From source
 
 ```sh
 git clone https://github.com/JayeshSuryavanshi/GeoSocialPy.git
 cd GeoSocialPy
-pip install .
+pip install .           # or:  pip install ".[example,maps,test]"
 ```
-
-To also install optional extras (comma-separated):
-
-```sh
-pip install ".[example,maps,test]"
-```
-
-> **Note:** GeoSocialPy is not yet published to PyPI.
 
 ## Configuration
 
