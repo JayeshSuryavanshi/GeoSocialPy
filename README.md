@@ -1,12 +1,12 @@
-# GeoSocialPy
+# GeoSocialX
 
-[![CI](https://github.com/JayeshSuryavanshi/GeoSocialPy/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialPy/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![Python](https://img.shields.io/pypi/pyversions/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/LICENSE)
+[![CI](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![Python](https://img.shields.io/pypi/pyversions/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/LICENSE)
 
-GeoSocialPy is a Python package designed to make geospatial analysis of tweets easier. Whether you are a social scientist, a data analyst, or just someone curious about the geospatial patterns of tweets, GeoSocialPy is for you.
+GeoSocialX is a Python package designed to make geospatial analysis of tweets easier. Whether you are a social scientist, a data analyst, or just someone curious about the geospatial patterns of tweets, GeoSocialX is for you.
 
 ## Overview
 
-GeoSocialPy bridges social media data and geospatial analysis. It provides a convenient wrapper around the X (Twitter) API v2 (via [Tweepy](https://www.tweepy.org/)) for fetching geotagged tweets within a geographic area and saving them for further analysis.
+GeoSocialX bridges social media data and geospatial analysis. It provides a convenient wrapper around the X (Twitter) API v2 (via [Tweepy](https://www.tweepy.org/)) for fetching geotagged tweets within a geographic area and saving them for further analysis.
 
 > **Project status:** Alpha (0.3.0). The full pipeline — fetch, extract, analyze, visualize — is implemented. Fetching targets the X API v2 recent-search endpoint, which **requires a paid X API tier** (Basic or higher); the free tier does not include tweet search. The extraction, analysis, and GeoJSON steps are dependency-free; interactive maps use the optional `folium` extra.
 
@@ -42,7 +42,7 @@ Optional extras:
 
 ### From PyPI
 
-GeoSocialPy is published on PyPI under the distribution name **`geosocialx`** (the import name is `geosocialx` too):
+GeoSocialX is published on PyPI under the distribution name **`geosocialx`** (the import name is `geosocialx` too):
 
 ```sh
 pip install geosocialx
@@ -57,14 +57,14 @@ pip install "geosocialx[example,maps,test]"
 ### From source
 
 ```sh
-git clone https://github.com/JayeshSuryavanshi/GeoSocialPy.git
-cd GeoSocialPy
+git clone https://github.com/JayeshSuryavanshi/GeoSocialX.git
+cd GeoSocialX
 pip install .           # or:  pip install ".[example,maps,test]"
 ```
 
 ## Configuration
 
-GeoSocialPy needs an X API bearer token, read from the `TWITTER_BEARER_TOKEN` environment variable (loaded from a `.env` file when the `example` extra is installed):
+GeoSocialX needs an X API bearer token, read from the `TWITTER_BEARER_TOKEN` environment variable (loaded from a `.env` file when the `example` extra is installed):
 
 ```env
 TWITTER_BEARER_TOKEN=your_bearer_token
@@ -127,7 +127,7 @@ viz.save_geojson("tweets.geojson")  # standard library, always available
 viz.to_html_map("tweets_map.html")  # interactive map — needs the `maps` extra
 ```
 
-A complete, **offline** version of this that needs no API access or paid tier is in [`examples/analyze.py`](https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/examples/analyze.py); it runs against a committed sample dump:
+A complete, **offline** version of this that needs no API access or paid tier is in [`examples/analyze.py`](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/examples/analyze.py); it runs against a committed sample dump:
 
 ```sh
 python examples/analyze.py
@@ -190,7 +190,7 @@ coverage report
 ## Project Structure
 
 ```
-GeoSocialPy/
+GeoSocialX/
 ├── geosocialx/
 │   ├── __init__.py              # exports the pipeline classes + __version__
 │   ├── data_fetcher.py          # TwitterDataFetcher (X API v2)
@@ -212,7 +212,7 @@ GeoSocialPy/
 
 ## License
 
-Released under the MIT License (see the [`LICENSE`](https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/LICENSE) file).
+Released under the MIT License (see the [`LICENSE`](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/LICENSE) file).
 
 ## Author
 

@@ -6,6 +6,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- Renamed the GitHub repository to **GeoSocialX** to match the project name. The
+  PyPI/import package name is unchanged (`geosocialx`); GitHub redirects the old
+  repository URLs.
+
 ## [0.3.0]
 
 ### Added
@@ -27,8 +32,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 First release under the distribution/import name **`geosocialx`**. The original
 `geosocialpy` PyPI name (0.1) is retained by an account that is no longer
 accessible, so this and future releases ship as `geosocialx`
-(`pip install geosocialx` / `import geosocialx`). The GitHub repository remains
-`GeoSocialPy`.
+(`pip install geosocialx` / `import geosocialx`). At the time of this release
+the GitHub repository was still named `GeoSocialPy`.
 
 ### Added
 - Full geospatial pipeline: `GeospatialExtractor`, `GeospatialAnalyzer`,
@@ -61,7 +66,7 @@ accessible, so this and future releases ship as `geosocialx`
 Initial release (2023): fetch geotagged tweets by geographic radius and save
 them, built on the Twitter API v1.1.
 
-[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialPy/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/JayeshSuryavanshi/GeoSocialPy/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/JayeshSuryavanshi/GeoSocialPy/releases/tag/v0.2.0
-[0.1.0]: https://github.com/JayeshSuryavanshi/GeoSocialPy
+[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/releases/tag/v0.2.0
+[0.1.0]: https://github.com/JayeshSuryavanshi/GeoSocialX
