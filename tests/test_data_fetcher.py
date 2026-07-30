@@ -1,7 +1,10 @@
+import contextlib
+import io
 import json
 import os
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from unittest import mock
 
 import requests
@@ -31,6 +34,10 @@ class GeocodeToQueryTests(unittest.TestCase):
         # A swapped lat/lon (here latitude > 90) is caught locally.
         with self.assertRaises(ValueError):
             TwitterDataFetcher._geocode_to_query("-122.4194,37.7749,10mi")
+
+    def test_rejects_out_of_range_longitude(self):
+        with self.assertRaises(ValueError):
+            TwitterDataFetcher._geocode_to_query("37.7749,200,10mi")
 
     def test_rejects_unitless_radius(self):
         with self.assertRaises(ValueError):
@@ -70,6 +77,11 @@ class ConstructorTests(unittest.TestCase):
         self.assertEqual(kwargs["consumer_secret"], "ks")
         self.assertEqual(kwargs["access_token"], "t")
         self.assertEqual(kwargs["access_token_secret"], "ts")
+
+    @mock.patch("tweepy.Client")
+    def test_wait_on_rate_limit_forwarded(self, mock_client):
+        TwitterDataFetcher(bearer_token="abc", wait_on_rate_limit=False)
+        self.assertFalse(mock_client.call_args.kwargs["wait_on_rate_limit"])
 
 
 def _response(tweets, places=None):
@@ -125,6 +137,31 @@ class FetchTweetsTests(unittest.TestCase):
             fetcher.fetch_tweets("37.7749,-122.4194,10mi", count=1)
         self.assertEqual(fetcher.places, {"sf001": [-122.42, 37.79, -122.39, 37.81]})
 
+    @mock.patch("tweepy.Client")
+    def test_forwards_time_window(self, _mock_client):
+        fetcher = TwitterDataFetcher(bearer_token="abc")
+        start = datetime(2024, 1, 1, tzinfo=timezone.utc)
+        end = datetime(2024, 1, 2, tzinfo=timezone.utc)
+        page = _response([{"id": "1"}])
+        with mock.patch("tweepy.Paginator", return_value=[page]) as paginator:
+            fetcher.fetch_tweets(
+                "37.7749,-122.4194,10mi", count=1, start_time=start, end_time=end
+            )
+        self.assertEqual(paginator.call_args.kwargs["start_time"], start)
+        self.assertEqual(paginator.call_args.kwargs["end_time"], end)
+
+    @mock.patch("tweepy.Client")
+    def test_accumulates_across_pages_and_merges_places(self, _mock_client):
+        fetcher = TwitterDataFetcher(bearer_token="abc")
+        place1 = mock.Mock(data={"id": "p1", "geo": {"bbox": [0, 0, 1, 1]}})
+        place2 = mock.Mock(data={"id": "p2", "geo": {"bbox": [2, 2, 3, 3]}})
+        page1 = _response([{"id": "1"}], places=[place1])
+        page2 = _response([{"id": "2"}], places=[place2])
+        with mock.patch("tweepy.Paginator", return_value=[page1, page2]):
+            result = fetcher.fetch_tweets("37.7749,-122.4194,10mi", count=10)
+        self.assertEqual([t["id"] for t in result], ["1", "2"])
+        self.assertEqual(set(fetcher.places), {"p1", "p2"})
+
 
 class SaveTweetsTests(unittest.TestCase):
     def test_writes_newline_delimited_json(self):
@@ -148,6 +185,15 @@ class SaveTweetsTests(unittest.TestCase):
             # The pre-existing file must be left intact, not truncated.
             with open(path) as f:
                 self.assertEqual(f.read(), "existing\n")
+
+    def test_save_places_round_trip(self):
+        fetcher = TwitterDataFetcher.__new__(TwitterDataFetcher)
+        fetcher.places = {"sf001": [-122.5, 37.7, -122.4, 37.8]}
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "places.json")
+            fetcher.save_places_to_file(path)
+            with open(path) as f:
+                self.assertEqual(json.load(f), {"sf001": [-122.5, 37.7, -122.4, 37.8]})
 
 
 class CliTests(unittest.TestCase):
@@ -178,6 +224,32 @@ class CliTests(unittest.TestCase):
             with mock.patch.object(cli, "TwitterDataFetcher", return_value=fake):
                 with self.assertRaises(SystemExit):
                     cli.main(["--count", "1"])
+
+    def test_version_flag(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaises(SystemExit) as cm:
+                cli.main(["--version"])
+        self.assertEqual(cm.exception.code, 0)
+
+    def test_rejects_non_positive_count(self):
+        with contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit) as cm:
+                cli.main(["--count", "0"])
+        self.assertEqual(cm.exception.code, 2)
+
+    def test_writes_places_file_when_present(self):
+        fake = mock.Mock()
+        fake.fetch_tweets.return_value = [{"id": "1"}]
+        fake.places = {"p1": [0, 0, 1, 1]}
+        with tempfile.TemporaryDirectory() as d:
+            out = os.path.join(d, "t.json")
+            with mock.patch.dict(
+                os.environ, {"TWITTER_BEARER_TOKEN": "abc"}, clear=True
+            ):
+                with mock.patch.object(cli, "TwitterDataFetcher", return_value=fake):
+                    rc = cli.main(["--output", out, "--count", "1"])
+        self.assertEqual(rc, 0)
+        fake.save_places_to_file.assert_called_once()
 
 
 if __name__ == "__main__":

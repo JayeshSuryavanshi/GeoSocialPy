@@ -13,7 +13,16 @@ import os
 import sys
 from typing import Sequence
 
+from geosocialx import __version__
 from geosocialx.data_fetcher import TwitterDataFetcher
+
+
+def _positive_int(value: str) -> int:
+    """argparse type: a strictly-positive integer."""
+    number = int(value)
+    if number < 1:
+        raise argparse.ArgumentTypeError(f"must be a positive integer, got {value!r}")
+    return number
 
 
 def _load_env() -> None:
@@ -31,12 +40,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         description="Fetch geotagged tweets within a radius via the X API v2.",
     )
     parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
+    )
+    parser.add_argument(
         "--geocode",
         default="37.7749,-122.4194,10mi",
         help='"latitude,longitude,radius", e.g. "37.7749,-122.4194,10mi".',
     )
     parser.add_argument(
-        "--count", type=int, default=100, help="Maximum number of tweets to fetch."
+        "--count",
+        type=_positive_int,
+        default=100,
+        help="Maximum number of tweets to fetch (positive integer).",
     )
     parser.add_argument(
         "--output", default="tweets.json", help="Path to write newline-delimited JSON."

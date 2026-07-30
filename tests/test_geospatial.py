@@ -85,6 +85,19 @@ class ExtractorTests(unittest.TestCase):
         )
         self.assertEqual([p.tweet_id for p in points], ["1", "2"])
 
+    def test_place_resolution_drops_non_numeric_bbox(self):
+        points = self.extractor.extract_points(
+            SF_TWEETS, places={"abc123": [None, 0, 1, 1]}
+        )
+        self.assertEqual([p.tweet_id for p in points], ["1", "2"])
+
+    def test_place_resolution_drops_out_of_range_centroid(self):
+        # centroid lon = (170 + 200) / 2 = 185 -> out of range -> dropped.
+        points = self.extractor.extract_points(
+            SF_TWEETS, places={"abc123": [170, 80, 200, 85]}
+        )
+        self.assertEqual([p.tweet_id for p in points], ["1", "2"])
+
     def test_load_tweets_roundtrip(self):
         with tempfile.TemporaryDirectory() as d:
             path = os.path.join(d, "tweets.json")
@@ -155,6 +168,24 @@ class AnalyzerTests(unittest.TestCase):
 
     def test_summary_empty(self):
         self.assertEqual(GeospatialAnalyzer([]).summary(), {"count": 0})
+
+    def test_summary_includes_time_range(self):
+        s = self.analyzer.summary()
+        self.assertEqual(s["count"], 2)
+        self.assertIn("bounding_box", s)
+        self.assertIn("centroid", s)
+        self.assertIn("span_km", s)
+        # Only point 1 carries a created_at, so earliest == latest.
+        self.assertEqual(s["earliest"], "2024-01-01T00:00:00+00:00")
+        self.assertEqual(s["latest"], "2024-01-01T00:00:00+00:00")
+
+    def test_time_bins_day_and_hour(self):
+        self.assertEqual(self.analyzer.time_bins(freq="day"), {"2024-01-01": 1})
+        self.assertEqual(self.analyzer.time_bins(freq="hour"), {"2024-01-01T00": 1})
+
+    def test_time_bins_rejects_bad_freq(self):
+        with self.assertRaises(ValueError):
+            self.analyzer.time_bins(freq="week")
 
 
 class VisualizerTests(unittest.TestCase):

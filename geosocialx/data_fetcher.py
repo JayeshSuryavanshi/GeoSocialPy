@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from datetime import datetime
 from typing import Iterable, Sequence
 
 import requests
@@ -25,6 +26,9 @@ class TwitterDataFetcher:
         geographic coverage is far sparser than the old v1.1 ``geocode`` search.
       * ``point_radius`` supports a radius of at most 25mi / 40km.
 
+    By default the client waits out rate limits (429s) rather than failing;
+    pass ``wait_on_rate_limit=False`` to fail fast instead.
+
     Tweets are requested with the ``geo.place_id`` expansion, so the bounding
     boxes of any referenced places are collected into :attr:`places`
     (``{place_id: [west, south, east, north]}``). Pass that map to
@@ -40,10 +44,11 @@ class TwitterDataFetcher:
         api_key_secret: str | None = None,
         access_token: str | None = None,
         access_token_secret: str | None = None,
+        wait_on_rate_limit: bool = True,
     ) -> None:
         if bearer_token:
             self.client = tweepy.Client(
-                bearer_token=bearer_token, wait_on_rate_limit=True
+                bearer_token=bearer_token, wait_on_rate_limit=wait_on_rate_limit
             )
         elif all([api_key, api_key_secret, access_token, access_token_secret]):
             self.client = tweepy.Client(
@@ -51,7 +56,7 @@ class TwitterDataFetcher:
                 consumer_secret=api_key_secret,
                 access_token=access_token,
                 access_token_secret=access_token_secret,
-                wait_on_rate_limit=True,
+                wait_on_rate_limit=wait_on_rate_limit,
             )
         else:
             raise ValueError(
@@ -113,15 +118,20 @@ class TwitterDataFetcher:
         count: int = 100,
         extra_query: str = "-is:retweet",
         tweet_fields: Sequence[str] = ("created_at", "geo", "author_id", "text"),
+        start_time: datetime | None = None,
+        end_time: datetime | None = None,
     ) -> list[dict] | None:
         """Return a list of tweet dicts within ``geocode``, or ``None`` on error.
 
         ``geocode`` is ``"latitude,longitude,radius"`` (e.g.
-        ``"37.7749,-122.4194,10mi"``). Pagination runs eagerly inside this call,
-        so both API errors (:class:`tweepy.TweepyException`) and transport-level
-        failures (:class:`requests.exceptions.RequestException` — dropped
-        connection, DNS failure, timeout) are caught here and turned into a
-        ``None`` return, rather than surfacing later when results are consumed.
+        ``"37.7749,-122.4194,10mi"``). ``start_time``/``end_time`` optionally
+        narrow the search inside the recent-search window (roughly the last 7
+        days); leave them ``None`` to use the full window. Pagination runs
+        eagerly inside this call, so both API errors
+        (:class:`tweepy.TweepyException`) and transport-level failures
+        (:class:`requests.exceptions.RequestException` — dropped connection, DNS
+        failure, timeout) are caught here and turned into a ``None`` return,
+        rather than surfacing later when results are consumed.
 
         The place bounding boxes referenced by the returned tweets are collected
         into :attr:`places` as a side effect.
@@ -140,6 +150,8 @@ class TwitterDataFetcher:
                 tweet_fields=list(tweet_fields),
                 expansions="geo.place_id",
                 place_fields=["geo"],
+                start_time=start_time,
+                end_time=end_time,
             )
             for response in paginator:
                 includes = getattr(response, "includes", None) or {}
