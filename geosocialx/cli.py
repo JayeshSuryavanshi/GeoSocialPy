@@ -14,7 +14,7 @@ import sys
 from typing import Sequence
 
 from geosocialx import __version__
-from geosocialx.data_fetcher import TwitterDataFetcher
+from geosocialx.data_fetcher import XDataFetcher
 
 
 def _positive_int(value: str) -> int:
@@ -65,15 +65,17 @@ def main(argv: Sequence[str] | None = None) -> int:
         logging.basicConfig(level=logging.INFO)
 
     _load_env()
-    bearer_token = os.getenv("TWITTER_BEARER_TOKEN")
+    # X_BEARER_TOKEN is the current name; TWITTER_BEARER_TOKEN is still read for
+    # backward compatibility.
+    bearer_token = os.getenv("X_BEARER_TOKEN") or os.getenv("TWITTER_BEARER_TOKEN")
     if not bearer_token:
         raise SystemExit(
-            "TWITTER_BEARER_TOKEN is not set. Add it to your environment or a "
+            "X_BEARER_TOKEN is not set. Add it to your environment or a "
             ".env file. To read a .env file install the example extra: "
             'pip install "geosocialx[example]".'
         )
 
-    fetcher = TwitterDataFetcher(bearer_token=bearer_token)
+    fetcher = XDataFetcher(bearer_token=bearer_token)
     tweets = fetcher.fetch_tweets(args.geocode, count=args.count)
     if tweets is None:
         raise SystemExit("Failed to fetch tweets (run with --verbose for details).")
