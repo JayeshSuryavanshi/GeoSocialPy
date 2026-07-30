@@ -6,12 +6,23 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.4.0]
+
+### Changed
+- Renamed the primary fetcher class to `XDataFetcher` and the credential env var
+  to `X_BEARER_TOKEN`, dropping the dated "Twitter" branding now that the platform
+  is X. `TwitterDataFetcher` remains a backward-compatible alias and
+  `TWITTER_BEARER_TOKEN` is still read as a fallback, so existing code keeps
+  working.
+- Removed "(Twitter)" wording from the package description, README, and
+  docstrings; refreshed the PyPI keywords.
+
+## [0.3.0]
+
 ### Changed
 - Renamed the GitHub repository to **GeoSocialX** to match the project name. The
   PyPI/import package name is unchanged (`geosocialx`); GitHub redirects the old
   repository URLs.
-
-## [0.3.0]
 
 ### Added
 - `GeospatialAnalyzer.time_bins(freq="day"|"hour")` — bucket points by their
@@ -45,7 +56,7 @@ the GitHub repository was still named `GeoSocialPy`.
   3.10–3.13 plus a ruff lint/format gate); 42 network-free tests.
 
 ### Changed
-- Migrated the fetcher from the dead Twitter API v1.1 to X API v2 recent search
+- Migrated the fetcher from the dead v1.1 API to X API v2 recent search
   (`point_radius`).
 
 ### Fixed / Hardened
@@ -64,9 +75,10 @@ the GitHub repository was still named `GeoSocialPy`.
 ## [0.1.0]
 
 Initial release (2023): fetch geotagged tweets by geographic radius and save
-them, built on the Twitter API v1.1.
+them, built on the legacy v1.1 API.
 
-[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/releases/tag/v0.2.0
 [0.1.0]: https://github.com/JayeshSuryavanshi/GeoSocialX
