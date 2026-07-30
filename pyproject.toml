@@ -3,8 +3,8 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "geosocialx"
-version = "0.4.0"
+name = "GeoSocialX"
+version = "0.5.0"
 description = "Fetch geotagged tweets by geographic radius via the X API v2."
 readme = "README.md"
 requires-python = ">=3.10"

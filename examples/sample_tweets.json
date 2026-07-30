@@ -1,4 +1,41 @@
-{"id": "1", "text": "hello from SF", "created_at": "2024-01-01T00:00:00Z", "author_id": "10", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.4194, 37.7749]}}}
-{"id": "2", "text": "downtown coffee", "created_at": "2024-01-01T01:00:00Z", "author_id": "11", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.4084, 37.7833]}}}
-{"id": "3", "text": "near the ferry building", "created_at": "2024-01-01T02:00:00Z", "author_id": "12", "geo": {"place_id": "sf001"}}
-{"id": "4", "text": "no geo on this one", "created_at": "2024-01-01T03:00:00Z", "author_id": "13"}
+{"id": "1", "text": "sample post 1", "created_at": "2024-01-01T11:00:00Z", "author_id": "1001", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41623, 37.7754]}}}
+{"id": "2", "text": "sample post 2", "created_at": "2024-01-01T22:00:00Z", "author_id": "1002", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.40891, 37.77731]}}}
+{"id": "3", "text": "sample post 3", "created_at": "2024-01-01T08:00:00Z", "author_id": "1003", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.39012, 37.79768]}}}
+{"id": "4", "text": "sample post 4", "created_at": "2024-01-01T08:00:00Z", "author_id": "1004", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41847, 37.77955]}}}
+{"id": "5", "text": "sample post 5", "created_at": "2024-01-01T16:00:00Z", "author_id": "1005", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.39187, 37.801]}}}
+{"id": "6", "text": "sample post 6", "created_at": "2024-01-01T20:00:00Z", "author_id": "1006", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.44671, 37.77514]}}}
+{"id": "7", "text": "sample post 7", "created_at": "2024-01-01T14:00:00Z", "author_id": "1007", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41927, 37.77254]}}}
+{"id": "8", "text": "sample post 8", "created_at": "2024-01-01T20:00:00Z", "author_id": "1008", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42349, 37.81074]}}}
+{"id": "9", "text": "sample post 9", "created_at": "2024-01-01T13:00:00Z", "author_id": "1009", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41987, 37.81034]}}}
+{"id": "10", "text": "sample post 10", "created_at": "2024-01-01T19:00:00Z", "author_id": "1010", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42877, 37.8036]}}}
+{"id": "11", "text": "sample post 11", "created_at": "2024-01-01T14:00:00Z", "author_id": "1011", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.45818, 37.76747]}}}
+{"id": "12", "text": "sample post 12", "created_at": "2024-01-01T17:00:00Z", "author_id": "1012", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42652, 37.77248]}}}
+{"id": "13", "text": "sample post 13", "created_at": "2024-01-01T08:00:00Z", "author_id": "1013", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42852, 37.80508]}}}
+{"id": "14", "text": "sample post 14", "created_at": "2024-01-02T21:00:00Z", "author_id": "1014", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.40672, 37.77181]}}}
+{"id": "15", "text": "sample post 15", "created_at": "2024-01-02T15:00:00Z", "author_id": "1015", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.40579, 37.78039]}}}
+{"id": "16", "text": "sample post 16", "created_at": "2024-01-02T18:00:00Z", "author_id": "1016", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42104, 37.8112]}}}
+{"id": "17", "text": "sample post 17", "created_at": "2024-01-02T09:00:00Z", "author_id": "1017", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42481, 37.80221]}}}
+{"id": "18", "text": "sample post 18", "created_at": "2024-01-02T11:00:00Z", "author_id": "1018", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.39697, 37.79179]}}}
+{"id": "19", "text": "sample post 19", "created_at": "2024-01-02T22:00:00Z", "author_id": "1019", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41148, 37.78405]}}}
+{"id": "20", "text": "sample post 20", "created_at": "2024-01-02T20:00:00Z", "author_id": "1020", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.39303, 37.79898]}}}
+{"id": "21", "text": "sample post 21", "created_at": "2024-01-02T13:00:00Z", "author_id": "1021", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41927, 37.77591]}}}
+{"id": "22", "text": "sample post 22", "created_at": "2024-01-02T17:00:00Z", "author_id": "1022", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.44801, 37.77264]}}}
+{"id": "23", "text": "sample post 23", "created_at": "2024-01-02T22:00:00Z", "author_id": "1023", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42191, 37.81258]}}}
+{"id": "24", "text": "sample post 24", "created_at": "2024-01-02T19:00:00Z", "author_id": "1024", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.44633, 37.77162]}}}
+{"id": "25", "text": "sample post 25", "created_at": "2024-01-02T14:00:00Z", "author_id": "1025", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.40013, 37.79389]}}}
+{"id": "26", "text": "sample post 26", "created_at": "2024-01-02T10:00:00Z", "author_id": "1026", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.39597, 37.79716]}}}
+{"id": "27", "text": "sample post 27", "created_at": "2024-01-03T21:00:00Z", "author_id": "1027", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.40041, 37.79577]}}}
+{"id": "28", "text": "sample post 28", "created_at": "2024-01-03T18:00:00Z", "author_id": "1028", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41805, 37.77684]}}}
+{"id": "29", "text": "sample post 29", "created_at": "2024-01-03T17:00:00Z", "author_id": "1029", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.45094, 37.76766]}}}
+{"id": "30", "text": "sample post 30", "created_at": "2024-01-03T21:00:00Z", "author_id": "1030", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.45817, 37.76796]}}}
+{"id": "31", "text": "sample post 31", "created_at": "2024-01-03T22:00:00Z", "author_id": "1031", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42024, 37.77311]}}}
+{"id": "32", "text": "sample post 32", "created_at": "2024-01-03T13:00:00Z", "author_id": "1032", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.39366, 37.78866]}}}
+{"id": "33", "text": "sample post 33", "created_at": "2024-01-03T08:00:00Z", "author_id": "1033", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42003, 37.77716]}}}
+{"id": "34", "text": "sample post 34", "created_at": "2024-01-03T16:00:00Z", "author_id": "1034", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41633, 37.80681]}}}
+{"id": "35", "text": "sample post 35", "created_at": "2024-01-03T18:00:00Z", "author_id": "1035", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41709, 37.77245]}}}
+{"id": "36", "text": "sample post 36", "created_at": "2024-01-03T20:00:00Z", "author_id": "1036", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.39548, 37.79404]}}}
+{"id": "37", "text": "sample post 37", "created_at": "2024-01-03T16:00:00Z", "author_id": "1037", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41513, 37.7816]}}}
+{"id": "38", "text": "sample post 38", "created_at": "2024-01-03T09:00:00Z", "author_id": "1038", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.42317, 37.7722]}}}
+{"id": "39", "text": "sample post 39", "created_at": "2024-01-03T12:00:00Z", "author_id": "1039", "geo": {"coordinates": {"type": "Point", "coordinates": [-122.41754, 37.80279]}}}
+{"id": "40", "text": "near the ferry building", "created_at": "2024-01-02T12:00:00Z", "author_id": "2000", "geo": {"place_id": "sf001"}}
+{"id": "41", "text": "no geo on this one", "created_at": "2024-01-02T13:00:00Z", "author_id": "2001"}
