@@ -4,6 +4,10 @@
 
 GeoSocialX is a Python package designed to make geospatial analysis of tweets easier. Whether you are a social scientist, a data analyst, or just someone curious about the geospatial patterns of tweets, GeoSocialX is for you.
 
+![Density heatmap of geotagged posts across San Francisco](https://raw.githubusercontent.com/JayeshSuryavanshi/GeoSocialX/main/docs/example-map.png)
+
+<sub>Example output: a density heatmap of geotagged posts across San Francisco (from the bundled sample data), rendered with `MapVisualizer.to_html_map`. See the [Quickstart](#quickstart) to reproduce it.</sub>
+
 ## Overview
 
 GeoSocialX bridges social media data and geospatial analysis. It provides a convenient wrapper around the X API v2 (via [Tweepy](https://www.tweepy.org/)) for fetching geotagged tweets within a geographic area and saving them for further analysis.
