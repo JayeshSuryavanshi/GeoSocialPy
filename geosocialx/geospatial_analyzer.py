@@ -4,7 +4,7 @@ import math
 from collections import Counter
 from typing import Iterable
 
-from geosocialpy.geospatial_extractor import GeoPoint
+from geosocialx.geospatial_extractor import GeoPoint
 
 _EARTH_RADIUS_KM = 6371.0088
 

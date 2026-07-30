@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import os
 
-from geosocialpy import GeospatialAnalyzer, GeospatialExtractor, MapVisualizer
+from geosocialx import GeospatialAnalyzer, GeospatialExtractor, MapVisualizer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 

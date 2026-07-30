@@ -7,8 +7,8 @@ from unittest import mock
 import requests
 import tweepy
 
-from geosocialpy import cli
-from geosocialpy.data_fetcher import TwitterDataFetcher
+from geosocialx import cli
+from geosocialx.data_fetcher import TwitterDataFetcher
 
 
 class GeocodeToQueryTests(unittest.TestCase):
@@ -85,7 +85,7 @@ class FetchTweetsTests(unittest.TestCase):
     def test_returns_none_on_api_error(self, _mock_client):
         fetcher = TwitterDataFetcher(bearer_token="abc")
         with mock.patch("tweepy.Paginator", side_effect=tweepy.TweepyException("boom")):
-            with self.assertLogs("geosocialpy.data_fetcher", level="ERROR"):
+            with self.assertLogs("geosocialx.data_fetcher", level="ERROR"):
                 self.assertIsNone(fetcher.fetch_tweets("37.7749,-122.4194,10mi"))
 
     @mock.patch("tweepy.Client")
@@ -95,7 +95,7 @@ class FetchTweetsTests(unittest.TestCase):
         with mock.patch(
             "tweepy.Paginator", side_effect=requests.exceptions.ConnectionError("down")
         ):
-            with self.assertLogs("geosocialpy.data_fetcher", level="ERROR"):
+            with self.assertLogs("geosocialx.data_fetcher", level="ERROR"):
                 self.assertIsNone(fetcher.fetch_tweets("37.7749,-122.4194,10mi"))
 
     @mock.patch("tweepy.Client")

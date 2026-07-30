@@ -34,9 +34,9 @@ Declared in `pyproject.toml`:
 
 Optional extras:
 
-- `example` — [`python-dotenv`](https://pypi.org/project/python-dotenv/), to load credentials from a `.env` file (`pip install "geosocialpy[example]"`).
-- `maps` — [`folium`](https://python-visualization.github.io/folium/), to render interactive Leaflet maps (`pip install "geosocialpy[maps]"`). Not needed for GeoJSON export.
-- `test` — [`coverage`](https://pypi.org/project/coverage/), for running the suite with coverage measurement (`pip install "geosocialpy[test]"`).
+- `example` — [`python-dotenv`](https://pypi.org/project/python-dotenv/), to load credentials from a `.env` file (`pip install "geosocialx[example]"`).
+- `maps` — [`folium`](https://python-visualization.github.io/folium/), to render interactive Leaflet maps (`pip install "geosocialx[maps]"`). Not needed for GeoJSON export.
+- `test` — [`coverage`](https://pypi.org/project/coverage/), for running the suite with coverage measurement (`pip install "geosocialx[test]"`).
 
 ## Installation
 
@@ -72,10 +72,10 @@ TWITTER_BEARER_TOKEN=your_bearer_token
 
 ### Command line
 
-Installing the package registers a `geosocialpy` console command:
+Installing the package registers a `geosocialx` console command:
 
 ```sh
-geosocialpy --geocode "37.7749,-122.4194,10mi" --count 100 --output tweets.json
+geosocialx --geocode "37.7749,-122.4194,10mi" --count 100 --output tweets.json
 ```
 
 This writes the fetched tweets to `tweets.json` (one JSON object per line) and, when any tweets reference a place, the collected place bounding boxes to `tweets.json.places.json`. The same entry point is available as `python main.py` (run either with `--help` for all options).
@@ -83,7 +83,7 @@ This writes the fetched tweets to `tweets.json` (one JSON object per line) and, 
 ### Programmatic
 
 ```python
-from geosocialpy import TwitterDataFetcher
+from geosocialx import TwitterDataFetcher
 
 fetcher = TwitterDataFetcher(bearer_token="your_bearer_token")
 
@@ -101,7 +101,7 @@ if tweets is not None:  # None means the API/network call failed
 Once you have a `tweets.json` (from the step above, or any newline-delimited v2 tweet dump), the rest of the pipeline is offline and needs no API access:
 
 ```python
-from geosocialpy import GeospatialExtractor, GeospatialAnalyzer, MapVisualizer
+from geosocialx import GeospatialExtractor, GeospatialAnalyzer, MapVisualizer
 
 extractor = GeospatialExtractor()
 tweets = extractor.load_tweets("tweets.json")
@@ -129,7 +129,7 @@ python examples/analyze.py
 
 ## Key Modules & Functions
 
-### `geosocialpy.data_fetcher`
+### `geosocialx.data_fetcher`
 
 **`TwitterDataFetcher(bearer_token=None, *, api_key=None, api_key_secret=None, access_token=None, access_token_secret=None)`**
 
@@ -139,7 +139,7 @@ Builds a Tweepy v2 `Client` (with `wait_on_rate_limit=True`). Pass a `bearer_tok
 - **`save_tweets_to_file(tweets, file_name)`** — Writes each tweet dict as newline-delimited JSON. Raises `ValueError` on `None` rather than truncating the destination.
 - **`save_places_to_file(file_name)`** — Writes the collected `{place_id: bbox}` map as JSON.
 
-### `geosocialpy.geospatial_extractor`
+### `geosocialx.geospatial_extractor`
 
 **`GeospatialExtractor`** turns raw v2 tweet dicts into geographic points.
 
@@ -147,7 +147,7 @@ Builds a Tweepy v2 `Client` (with `wait_on_rate_limit=True`). Pass a `bearer_tok
 - **`coverage(tweets)`** — Returns `{total, with_point, place_only, no_geo}` so you can see how sparse the geo data is (`with_point` counts exactly what `extract_points` keeps as exact points).
 - **`load_tweets(path)`** / **`load_places(path)`** — Load the newline-delimited tweets / `{place_id: bbox}` map written by the fetcher.
 
-### `geosocialpy.geospatial_analyzer`
+### `geosocialx.geospatial_analyzer`
 
 **`GeospatialAnalyzer(points)`** computes spatial statistics with no third-party dependencies.
 
@@ -157,7 +157,7 @@ Builds a Tweepy v2 `Client` (with `wait_on_rate_limit=True`). Pass a `bearer_tok
 - **`densest_cells(cell_size_deg=0.01, top=5)`** — busiest grid cells. Cells are equal in *degrees*, not equal in area (~1.1 km tall but ~1.1·cos(lat) km wide at `0.01°`), so it is a within-city hotspot heuristic, not a cross-latitude density estimate.
 - **`summary()`** — `count`, `bounding_box`, `centroid`, and bbox diagonal `span_km`.
 
-### `geosocialpy.data_visualization`
+### `geosocialx.data_visualization`
 
 **`MapVisualizer(points)`** renders points to disk.
 
@@ -184,13 +184,13 @@ coverage report
 
 ```
 GeoSocialPy/
-├── geosocialpy/
+├── geosocialx/
 │   ├── __init__.py              # exports the pipeline classes + __version__
 │   ├── data_fetcher.py          # TwitterDataFetcher (X API v2)
 │   ├── geospatial_extractor.py  # GeospatialExtractor, GeoPoint
 │   ├── geospatial_analyzer.py   # GeospatialAnalyzer (pure stdlib)
 │   ├── data_visualization.py    # MapVisualizer (GeoJSON + optional folium)
-│   ├── cli.py                   # `geosocialpy` console entry point
+│   ├── cli.py                   # `geosocialx` console entry point
 │   └── py.typed                 # PEP 561 marker (ships the type hints)
 ├── examples/
 │   ├── analyze.py               # offline analyze/visualize demo
@@ -198,7 +198,7 @@ GeoSocialPy/
 │   └── sample_places.json       # committed sample place bboxes
 ├── tests/                       # network-free unit tests
 ├── .github/workflows/ci.yml     # test matrix (3.10–3.13) + lint
-├── main.py                      # thin shim over geosocialpy.cli
+├── main.py                      # thin shim over geosocialx.cli
 ├── pyproject.toml
 └── README.md
 ```
