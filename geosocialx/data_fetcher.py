@@ -16,8 +16,8 @@ _RADIUS_RE = re.compile(r"^(\d+(?:\.\d+)?)(mi|km)$")
 _MAX_RADIUS = {"mi": 25.0, "km": 40.0}
 
 
-class TwitterDataFetcher:
-    """Fetch geotagged tweets via the X (Twitter) API v2 recent-search endpoint.
+class XDataFetcher:
+    """Fetch geotagged tweets via the X API v2 recent-search endpoint.
 
     Notes / real-world constraints:
       * Recent search requires a paid X API tier (Basic or higher). The free
@@ -194,3 +194,7 @@ class TwitterDataFetcher:
         """Write the collected ``{place_id: bbox}`` map (:attr:`places`) as JSON."""
         with open(file_name, "w", encoding="utf-8") as f:
             json.dump(self.places, f)
+
+
+# Backward-compatible alias for the pre-0.4.0 name (deprecated; use XDataFetcher).
+TwitterDataFetcher = XDataFetcher

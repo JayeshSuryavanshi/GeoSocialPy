@@ -6,7 +6,7 @@ GeoSocialX is a Python package designed to make geospatial analysis of tweets ea
 
 ## Overview
 
-GeoSocialX bridges social media data and geospatial analysis. It provides a convenient wrapper around the X (Twitter) API v2 (via [Tweepy](https://www.tweepy.org/)) for fetching geotagged tweets within a geographic area and saving them for further analysis.
+GeoSocialX bridges social media data and geospatial analysis. It provides a convenient wrapper around the X API v2 (via [Tweepy](https://www.tweepy.org/)) for fetching geotagged tweets within a geographic area and saving them for further analysis.
 
 > **Project status:** Alpha (0.3.0). The full pipeline — fetch, extract, analyze, visualize — is implemented. Fetching targets the X API v2 recent-search endpoint, which **requires a paid X API tier** (Basic or higher); the free tier does not include tweet search. The extraction, analysis, and GeoJSON steps are dependency-free; interactive maps use the optional `folium` extra.
 
@@ -87,9 +87,9 @@ No data on hand? A complete, runnable offline demo on a bundled sample is in [`e
 To **fetch your own** geotagged tweets (needs an X API bearer token on a paid tier — see [Configuration](#configuration)):
 
 ```python
-from geosocialx import TwitterDataFetcher
+from geosocialx import XDataFetcher
 
-fetcher = TwitterDataFetcher(bearer_token="YOUR_BEARER_TOKEN")
+fetcher = XDataFetcher(bearer_token="YOUR_BEARER_TOKEN")
 tweets = fetcher.fetch_tweets("37.7749,-122.4194,10mi", count=100)  # 10 mi around SF
 fetcher.save_tweets_to_file(tweets, "tweets.json")
 ```
@@ -102,15 +102,15 @@ geosocialx --geocode "37.7749,-122.4194,10mi" --count 100 --output tweets.json
 
 ## Configuration
 
-GeoSocialX needs an X API bearer token, read from the `TWITTER_BEARER_TOKEN` environment variable (loaded from a `.env` file when the `example` extra is installed):
+GeoSocialX needs an X API bearer token, read from the `X_BEARER_TOKEN` environment variable (loaded from a `.env` file when the `example` extra is installed):
 
 ```env
-TWITTER_BEARER_TOKEN=your_bearer_token
+X_BEARER_TOKEN=your_bearer_token
 ```
 
-> **Note:** `.env` is git-ignored. Never commit real credentials.
+> **Note:** `.env` is git-ignored. Never commit real credentials. The legacy `TWITTER_BEARER_TOKEN` variable is still read as a fallback.
 
-`TwitterDataFetcher` can also authenticate in user context with the four OAuth 1.0a credentials (`api_key`, `api_key_secret`, `access_token`, `access_token_secret`) passed as keyword arguments, but app-only bearer-token auth is the simplest path for recent search.
+`XDataFetcher` can also authenticate in user context with the four OAuth 1.0a credentials (`api_key`, `api_key_secret`, `access_token`, `access_token_secret`) passed as keyword arguments, but app-only bearer-token auth is the simplest path for recent search. (`TwitterDataFetcher` remains as a deprecated alias of `XDataFetcher`.)
 
 ## Usage
 
@@ -127,9 +127,9 @@ This writes the fetched tweets to `tweets.json` (one JSON object per line) and, 
 ### Programmatic
 
 ```python
-from geosocialx import TwitterDataFetcher
+from geosocialx import XDataFetcher
 
-fetcher = TwitterDataFetcher(bearer_token="your_bearer_token")
+fetcher = XDataFetcher(bearer_token="your_bearer_token")
 
 # Fetch up to 100 tweets within 10 miles of San Francisco.
 tweets = fetcher.fetch_tweets("37.7749,-122.4194,10mi", count=100)
@@ -175,7 +175,7 @@ python examples/analyze.py
 
 ### `geosocialx.data_fetcher`
 
-**`TwitterDataFetcher(bearer_token=None, *, api_key=None, api_key_secret=None, access_token=None, access_token_secret=None, wait_on_rate_limit=True)`**
+**`XDataFetcher(bearer_token=None, *, api_key=None, api_key_secret=None, access_token=None, access_token_secret=None, wait_on_rate_limit=True)`**
 
 Builds a Tweepy v2 `Client`. Pass a `bearer_token` for app-only auth, or all four OAuth 1.0a credentials as keyword arguments for user-context auth. Raises `ValueError` if neither is provided. By default it waits out rate limits (429s); pass `wait_on_rate_limit=False` to fail fast instead.
 
@@ -231,7 +231,7 @@ coverage report
 GeoSocialX/
 ├── geosocialx/
 │   ├── __init__.py              # exports the pipeline classes + __version__
-│   ├── data_fetcher.py          # TwitterDataFetcher (X API v2)
+│   ├── data_fetcher.py          # XDataFetcher (X API v2)
 │   ├── geospatial_extractor.py  # GeospatialExtractor, GeoPoint
 │   ├── geospatial_analyzer.py   # GeospatialAnalyzer (pure stdlib)
 │   ├── data_visualization.py    # MapVisualizer (GeoJSON + optional folium)
