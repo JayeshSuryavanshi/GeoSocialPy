@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "geosocialx"
-version = "0.2.0"
+version = "0.3.0"
 description = "Fetch geotagged tweets by geographic radius via the X (Twitter) API v2."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -37,6 +37,7 @@ geosocialx = "geosocialx.cli:main"
 Homepage = "https://github.com/JayeshSuryavanshi/GeoSocialPy"
 Repository = "https://github.com/JayeshSuryavanshi/GeoSocialPy"
 Issues = "https://github.com/JayeshSuryavanshi/GeoSocialPy/issues"
+Changelog = "https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["geosocialx*"]
@@ -50,3 +51,13 @@ line-length = 88
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[tool.mypy]
+packages = ["geosocialx"]
+
+[[tool.mypy.overrides]]
+module = ["tweepy.*", "folium.*", "dotenv.*"]
+ignore_missing_imports = true
+
+[tool.coverage.report]
+fail_under = 90

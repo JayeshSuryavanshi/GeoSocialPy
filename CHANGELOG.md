@@ -1,0 +1,67 @@
+# Changelog
+
+All notable changes to this project are documented here. The format is based on
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
+adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.3.0]
+
+### Added
+- `GeospatialAnalyzer.time_bins(freq="day"|"hour")` — bucket points by their
+  `created_at` timestamp, turning the tool from where-only into where-and-when.
+- `summary()` now includes `earliest`/`latest` (UTC ISO-8601) when the points
+  carry timestamps.
+- `fetch_tweets(start_time=..., end_time=...)` to narrow the recent-search
+  window.
+- `TwitterDataFetcher(wait_on_rate_limit=...)` to opt out of the default
+  block-on-429 behavior and fail fast instead.
+- CLI `--version`, and `--count` now rejects non-positive values.
+- `CHANGELOG.md`, a Changelog project URL, a mypy CI job (verifying the shipped
+  `py.typed` hints), a coverage gate (`--fail-under=90`), and a tag-triggered
+  release workflow using PyPI Trusted Publishing.
+
+## [0.2.0]
+
+First release under the distribution/import name **`geosocialx`**. The original
+`geosocialpy` PyPI name (0.1) is retained by an account that is no longer
+accessible, so this and future releases ship as `geosocialx`
+(`pip install geosocialx` / `import geosocialx`). The GitHub repository remains
+`GeoSocialPy`.
+
+### Added
+- Full geospatial pipeline: `GeospatialExtractor`, `GeospatialAnalyzer`,
+  `MapVisualizer`, and a `geosocialx` console script.
+- `place_id` → bounding-box-centroid resolution; `GeoPoint.source`
+  (`"exact"` | `"place"`).
+- `py.typed` marker and fully typed modules; modern `pyproject.toml`
+  (SPDX license, `requires-python >= 3.10`); GitHub Actions CI (test matrix on
+  3.10–3.13 plus a ruff lint/format gate); 42 network-free tests.
+
+### Changed
+- Migrated the fetcher from the dead Twitter API v1.1 to X API v2 recent search
+  (`point_radius`).
+
+### Fixed / Hardened
+- `fetch_tweets` now also catches transport-level failures
+  (`requests.exceptions.RequestException`) and logs via `logging` instead of
+  `print`.
+- `save_tweets_to_file` refuses `None` so a failed fetch never truncates an
+  existing file.
+- Local geocode validation (coordinate ranges + radius unit/cap) before the
+  paid-tier API call.
+- Extractor drops malformed / out-of-range coordinates; `coverage()` aligned
+  with `extract_points`; files read as UTF-8.
+- Haversine `min(1.0, a)` clamp to avoid a math-domain error near antipodes.
+- Recent-search page size right-sized to the requested `count`.
+
+## [0.1.0]
+
+Initial release (2023): fetch geotagged tweets by geographic radius and save
+them, built on the Twitter API v1.1.
+
+[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialPy/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/JayeshSuryavanshi/GeoSocialPy/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/JayeshSuryavanshi/GeoSocialPy/releases/tag/v0.2.0
+[0.1.0]: https://github.com/JayeshSuryavanshi/GeoSocialPy

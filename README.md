@@ -1,6 +1,6 @@
 # GeoSocialPy
 
-[![CI](https://github.com/JayeshSuryavanshi/GeoSocialPy/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialPy/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![CI](https://github.com/JayeshSuryavanshi/GeoSocialPy/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialPy/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![Python](https://img.shields.io/pypi/pyversions/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/LICENSE)
 
 GeoSocialPy is a Python package designed to make geospatial analysis of tweets easier. Whether you are a social scientist, a data analyst, or just someone curious about the geospatial patterns of tweets, GeoSocialPy is for you.
 
@@ -8,7 +8,7 @@ GeoSocialPy is a Python package designed to make geospatial analysis of tweets e
 
 GeoSocialPy bridges social media data and geospatial analysis. It provides a convenient wrapper around the X (Twitter) API v2 (via [Tweepy](https://www.tweepy.org/)) for fetching geotagged tweets within a geographic area and saving them for further analysis.
 
-> **Project status:** Early stage (version 0.1). The full pipeline — fetch, extract, analyze, visualize — is implemented. Fetching targets the X API v2 recent-search endpoint, which **requires a paid X API tier** (Basic or higher); the free tier does not include tweet search. The extraction, analysis, and GeoJSON steps are dependency-free; interactive maps use the optional `folium` extra.
+> **Project status:** Alpha (0.3.0). The full pipeline — fetch, extract, analyze, visualize — is implemented. Fetching targets the X API v2 recent-search endpoint, which **requires a paid X API tier** (Basic or higher); the free tier does not include tweet search. The extraction, analysis, and GeoJSON steps are dependency-free; interactive maps use the optional `folium` extra.
 
 ## Features
 
@@ -127,7 +127,7 @@ viz.save_geojson("tweets.geojson")  # standard library, always available
 viz.to_html_map("tweets_map.html")  # interactive map — needs the `maps` extra
 ```
 
-A complete, **offline** version of this that needs no API access or paid tier is in [`examples/analyze.py`](examples/analyze.py); it runs against a committed sample dump:
+A complete, **offline** version of this that needs no API access or paid tier is in [`examples/analyze.py`](https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/examples/analyze.py); it runs against a committed sample dump:
 
 ```sh
 python examples/analyze.py
@@ -137,11 +137,11 @@ python examples/analyze.py
 
 ### `geosocialx.data_fetcher`
 
-**`TwitterDataFetcher(bearer_token=None, *, api_key=None, api_key_secret=None, access_token=None, access_token_secret=None)`**
+**`TwitterDataFetcher(bearer_token=None, *, api_key=None, api_key_secret=None, access_token=None, access_token_secret=None, wait_on_rate_limit=True)`**
 
-Builds a Tweepy v2 `Client` (with `wait_on_rate_limit=True`). Pass a `bearer_token` for app-only auth, or all four OAuth 1.0a credentials as keyword arguments for user-context auth. Raises `ValueError` if neither is provided.
+Builds a Tweepy v2 `Client`. Pass a `bearer_token` for app-only auth, or all four OAuth 1.0a credentials as keyword arguments for user-context auth. Raises `ValueError` if neither is provided. By default it waits out rate limits (429s); pass `wait_on_rate_limit=False` to fail fast instead.
 
-- **`fetch_tweets(geocode, count=100, extra_query="-is:retweet", tweet_fields=(...))`** — Returns a `list` of tweet dicts within the given area, or `None` (logging the error) if the API call or network transport fails. `geocode` is `"latitude,longitude,radius"` (e.g. `"37.7749,-122.4194,10mi"`, radius ≤ 25mi/40km), validated locally and translated to the v2 `point_radius:[longitude latitude radius]` operator (note: v2 puts **longitude first**). The place bounding boxes referenced by the results are collected into the `places` attribute.
+- **`fetch_tweets(geocode, count=100, extra_query="-is:retweet", tweet_fields=(...), start_time=None, end_time=None)`** — Returns a `list` of tweet dicts within the given area, or `None` (logging the error) if the API call or network transport fails. `geocode` is `"latitude,longitude,radius"` (e.g. `"37.7749,-122.4194,10mi"`, radius ≤ 25mi/40km), validated locally and translated to the v2 `point_radius:[longitude latitude radius]` operator (note: v2 puts **longitude first**). `start_time`/`end_time` (`datetime`) optionally narrow the search inside the ~7-day recent-search window. The place bounding boxes referenced by the results are collected into the `places` attribute.
 - **`save_tweets_to_file(tweets, file_name)`** — Writes each tweet dict as newline-delimited JSON. Raises `ValueError` on `None` rather than truncating the destination.
 - **`save_places_to_file(file_name)`** — Writes the collected `{place_id: bbox}` map as JSON.
 
@@ -161,7 +161,8 @@ Builds a Tweepy v2 `Client` (with `wait_on_rate_limit=True`). Pass a `bearer_tok
 - **`haversine_km(lon1, lat1, lon2, lat2)`** — great-circle distance in km (static).
 - **`points_within(lon, lat, radius_km)`** — points inside a radius.
 - **`densest_cells(cell_size_deg=0.01, top=5)`** — busiest grid cells. Cells are equal in *degrees*, not equal in area (~1.1 km tall but ~1.1·cos(lat) km wide at `0.01°`), so it is a within-city hotspot heuristic, not a cross-latitude density estimate.
-- **`summary()`** — `count`, `bounding_box`, `centroid`, and bbox diagonal `span_km`.
+- **`time_bins(freq="day"|"hour")`** — bucket points by their `created_at` timestamp as `{bucket: count}` (ordered by bucket), skipping any point without a parseable timestamp.
+- **`summary()`** — `count`, `bounding_box`, `centroid`, bbox diagonal `span_km`, and `earliest`/`latest` (UTC ISO-8601) when the points carry timestamps.
 
 ### `geosocialx.data_visualization`
 
@@ -211,7 +212,7 @@ GeoSocialPy/
 
 ## License
 
-Released under the MIT License (see the [`LICENSE`](LICENSE) file).
+Released under the MIT License (see the [`LICENSE`](https://github.com/JayeshSuryavanshi/GeoSocialPy/blob/main/LICENSE) file).
 
 ## Author
 
