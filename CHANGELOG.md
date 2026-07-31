@@ -6,6 +6,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.8.0]
+
+### Added
+- `CITATION.cff` and a "Citation" section (with BibTeX) in the README so the
+  project is citeable, plus a [JOSS](https://joss.theoj.org/)-style paper draft
+  under `paper/`.
+
+### Changed
+- Rewrote the Colab quickstart notebook around the source-agnostic API: it now
+  leads with the keyless `load_sample`, then CSV/GeoJSON, Bluesky, and X.
+
 ## [0.7.0]
 
 ### Added
@@ -125,7 +136,8 @@ the GitHub repository was still named `GeoSocialPy`.
 Initial release (2023): fetch geotagged tweets by geographic radius and save
 them, built on the legacy v1.1 API.
 
-[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.4.0...v0.5.0
