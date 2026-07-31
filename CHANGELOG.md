@@ -6,6 +6,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.7.0]
+
+### Added
+- **Bluesky / AT Protocol support** (`geosocialx.bluesky`): `read_bluesky`
+  extracts the emerging `community.lexicon.location.geo` lexicon from any AT
+  Protocol record (check-ins, events, geo markers, post embeds) into
+  `GeoRecord`s, and `BlueskyFetcher` fetches records via the free `atproto` SDK
+  (`search_posts`, `list_records`). Restores a live, unpaywalled fetch story —
+  no paid tier. Behind the optional `bluesky` extra
+  (`pip install "geosocialx[bluesky]"`); the core package imports without it.
+
 ## [0.6.0]
 
 ### Added
@@ -114,7 +125,8 @@ the GitHub repository was still named `GeoSocialPy`.
 Initial release (2023): fetch geotagged tweets by geographic radius and save
 them, built on the legacy v1.1 API.
 
-[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.3.0...v0.4.0
