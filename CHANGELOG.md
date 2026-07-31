@@ -20,10 +20,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 - Generalized the core point type to **`GeoRecord`** (`id`, `longitude`,
-  `latitude`, `text`, `timestamp`, `author`, `source`). **`GeoPoint` remains a
-  backward-compatible alias**, and the old field names `tweet_id` / `created_at`
-  / `author_id` still work as read-only aliases. Constructing with those keyword
-  names is deprecated — use `id` / `timestamp` / `author`.
+  `latitude`, `text`, `timestamp`, `author`, `source`). **`GeoPoint` remains an
+  alias**; reading the old names `tweet_id` / `created_at` / `author_id` still
+  works (read-only aliases), and positional construction is unchanged.
+  **Breaking:** constructing with the old *keyword* names
+  (`GeoPoint(tweet_id=…, created_at=…, author_id=…)`) is no longer supported and
+  raises `TypeError` — use `id` / `timestamp` / `author`.
 - GeoJSON export now uses generic property names (`id`, `timestamp`, `author`)
   instead of the X-specific `tweet_id` / `created_at` / `author_id`.
 - Repositioned the package around "map the geography of any geotagged data";

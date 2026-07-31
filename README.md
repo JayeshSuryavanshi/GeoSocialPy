@@ -205,7 +205,7 @@ Builds a Tweepy v2 `Client`. Pass a `bearer_token` for app-only auth, or all fou
 
 **`GeospatialExtractor`** turns raw v2 tweet dicts into geographic points.
 
-- **`extract_points(tweets, places=None)`** — Returns a list of `GeoPoint(tweet_id, longitude, latitude, text, created_at, author_id, source)` for every tweet with a usable location. Tweets with exact coordinates yield `source="exact"`; if a `places` map is given, place-only tweets are additionally resolved to their bounding-box centroid as `source="place"`. Malformed or out-of-range coordinates are skipped.
+- **`extract_points(tweets, places=None)`** — Returns a list of `GeoRecord(id, longitude, latitude, text, timestamp, author, source)` for every tweet with a usable location (the old `.tweet_id` / `.created_at` / `.author_id` names remain readable as aliases). Tweets with exact coordinates yield `source="exact"`; if a `places` map is given, place-only tweets are additionally resolved to their bounding-box centroid as `source="place"`. Malformed or out-of-range coordinates are skipped.
 - **`coverage(tweets)`** — Returns `{total, with_point, place_only, no_geo}` so you can see how sparse the geo data is (`with_point` counts exactly what `extract_points` keeps as exact points).
 - **`load_tweets(path)`** / **`load_places(path)`** — Load the newline-delimited tweets / `{place_id: bbox}` map written by the fetcher.
 
@@ -248,17 +248,17 @@ coverage report
 ```
 GeoSocialX/
 ├── geosocialx/
-│   ├── __init__.py              # exports the pipeline classes + __version__
-│   ├── data_fetcher.py          # XDataFetcher (X API v2)
-│   ├── geospatial_extractor.py  # GeospatialExtractor, GeoPoint
+│   ├── __init__.py              # exports the public API + __version__
+│   ├── geo_record.py            # GeoRecord (+ GeoPoint alias), valid_lonlat
+│   ├── sources.py               # read_csv / read_geojson / read_records, load_sample
+│   ├── data/                    # bundled sample datasets (sf.geojson, nyc.geojson)
+│   ├── data_fetcher.py          # XDataFetcher (X API v2 — optional source)
+│   ├── geospatial_extractor.py  # GeospatialExtractor (X tweet dicts -> GeoRecord)
 │   ├── geospatial_analyzer.py   # GeospatialAnalyzer (pure stdlib)
 │   ├── data_visualization.py    # MapVisualizer (GeoJSON + optional folium)
 │   ├── cli.py                   # `geosocialx` console entry point
 │   └── py.typed                 # PEP 561 marker (ships the type hints)
-├── examples/
-│   ├── analyze.py               # offline analyze/visualize demo
-│   ├── sample_tweets.json       # committed sample dump
-│   └── sample_places.json       # committed sample place bboxes
+├── examples/                    # runnable demos + sample data
 ├── tests/                       # network-free unit tests
 ├── .github/workflows/ci.yml     # test matrix (3.10–3.13) + lint
 ├── main.py                      # thin shim over geosocialx.cli
