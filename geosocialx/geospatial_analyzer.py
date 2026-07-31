@@ -5,7 +5,7 @@ from collections import Counter
 from datetime import datetime, timezone
 from typing import Iterable
 
-from geosocialx.geospatial_extractor import GeoPoint
+from geosocialx.geo_record import GeoRecord
 
 _EARTH_RADIUS_KM = 6371.0088
 
@@ -28,10 +28,10 @@ def _parse_timestamp(value: str | None) -> datetime | None:
 
 
 class GeospatialAnalyzer:
-    """Dependency-free spatial statistics over a set of :class:`GeoPoint`."""
+    """Dependency-free spatial statistics over a set of :class:`GeoRecord`."""
 
-    def __init__(self, points: Iterable[GeoPoint]):
-        self.points: list[GeoPoint] = list(points)
+    def __init__(self, points: Iterable[GeoRecord]):
+        self.points: list[GeoRecord] = list(points)
 
     def count(self) -> int:
         return len(self.points)
@@ -77,7 +77,7 @@ class GeospatialAnalyzer:
 
     def points_within(
         self, longitude: float, latitude: float, radius_km: float
-    ) -> list[GeoPoint]:
+    ) -> list[GeoRecord]:
         """Return points within ``radius_km`` of ``(longitude, latitude)``."""
         return [
             p
