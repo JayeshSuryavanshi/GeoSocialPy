@@ -182,223 +182,347 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import numpy as np
+    from matplotlib.colors import ListedColormap
     from matplotlib.lines import Line2D
     from matplotlib.patches import Polygon as MplPolygon
 
-    paper, ink, ink_soft, rule = "#faf8f3", "#22201b", "#57534a", "#e3ddce"
-    accent, rust, dark = "#204a87", "#9c531f", "#cfc8b8"
+    # simple sans typography + a maroon-aligned, colour-blind-legible palette
     plt.rcParams.update(
         {
-            "font.family": "serif",
-            "font.serif": ["Georgia", "Charter", "DejaVu Serif"],
-            "text.color": ink,
-            "axes.edgecolor": rule,
-            "figure.facecolor": paper,
-            "axes.facecolor": paper,
-            "savefig.facecolor": paper,
+            "font.family": "sans-serif",
+            "font.sans-serif": ["Helvetica", "Arial", "DejaVu Sans"],
         }
     )
+    PAPER = "#faf8f3"
+    INK, SOFT, FAINT = "#20201e", "#565049", "#8a867a"
+    RULE = "#d8d2c6"
+    MAROON = "#7a1c2b"  # exact coordinates
+    STEEL = "#4f6d8f"  # place tag only
+    GRAY = "#cbc4b6"  # no location
+    LAND = "#efe9dd"
+    WATER = "#aec4d0"
 
-    # figure 1: the coverage cliff
-    fig, ax = plt.subplots(figsize=(9.2, 2.9))
-    total, left = cov["total"], 0
-    for n, color in (
-        (cov["with_point"], accent),
-        (cov["place_only"], rust),
-        (cov["no_geo"], dark),
-    ):
-        ax.barh(
-            0, n, left=left, height=0.5, color=color, edgecolor=paper, linewidth=1.2
-        )
-        if n / total > 0.04:
-            ax.text(
-                left + n / 2,
-                0,
-                f"{n / total:.0%}",
-                ha="center",
-                va="center",
-                color=(paper if color != dark else ink_soft),
-                fontsize=13,
-                fontweight="bold",
-            )
-        left += n
-    ax.annotate(
-        f"exact coordinates\n{cov['with_point']:,} posts · 1.6%",
-        xy=(cov["with_point"] / 2, -0.28),
-        xytext=(total * 0.06, -0.95),
-        ha="left",
-        va="top",
-        color=accent,
-        fontsize=10.5,
-        arrowprops=dict(arrowstyle="-", color=accent, lw=1),
+    # ====================================================================
+    # figure 1 : unit chart, one square per post
+    # ====================================================================
+    total = cov["total"]
+    n_exact, n_place, n_nogeo = cov["with_point"], cov["place_only"], cov["no_geo"]
+    cols = 100
+    rows = total // cols
+    cat = np.array([0] * n_exact + [1] * n_place + [2] * n_nogeo).reshape(rows, cols)
+
+    fig = plt.figure(figsize=(9.4, 6.6))
+    fig.patch.set_facecolor(PAPER)
+    ax = fig.add_axes([0.055, 0.205, 0.89, 0.63])
+    ax.set_facecolor(PAPER)
+    ax.pcolormesh(
+        cat,
+        cmap=ListedColormap([MAROON, STEEL, GRAY]),
+        edgecolors=PAPER,
+        linewidth=1.0,
     )
-    ax.plot([0, cov["with_point"]], [0.34, 0.34], color=accent, lw=1)
-    ax.text(
-        cov["with_point"] / 2,
-        0.44,
-        "what a naive map keeps: 1.6%",
+    ax.set_aspect("equal")
+    ax.set_xlim(0, cols)
+    ax.set_ylim(0, rows)
+    ax.invert_yaxis()
+    ax.axis("off")
+
+    fig.text(
+        0.055,
+        0.935,
+        "Where 5,000 posts actually carry a location",
+        color=INK,
+        fontsize=15,
+        fontweight="bold",
+        ha="left",
+    )
+    fig.text(
+        0.055,
+        0.888,
+        "One square is one post, filled in blocks by the location it carries.",
+        color=SOFT,
+        fontsize=11,
+        ha="left",
+    )
+
+    legend = [
+        (MAROON, "exact coordinates", n_exact, "1.6%"),
+        (STEEL, "place tag only", n_place, "14.4%"),
+        (GRAY, "no location at all", n_nogeo, "84.0%"),
+    ]
+    for (color, name, n, pct), x in zip(legend, (0.055, 0.40, 0.71)):
+        fig.patches.append(
+            plt.Rectangle(
+                (x, 0.083),
+                0.017,
+                0.028,
+                transform=fig.transFigure,
+                facecolor=color,
+                edgecolor="none",
+                clip_on=False,
+            )
+        )
+        fig.text(x + 0.026, 0.104, name, color=INK, fontsize=11, va="center", ha="left")
+        fig.text(
+            x + 0.026,
+            0.073,
+            f"{n:,} posts  ·  {pct}",
+            color=SOFT,
+            fontsize=9.5,
+            va="center",
+            ha="left",
+        )
+
+    fig.text(
+        0.055,
+        0.028,
+        "A naive map plots only the 80 maroon squares (1.6%). "
+        "Place-resolution recovers the 720 steel squares, reaching 16% mappable;",
+        color=FAINT,
+        fontsize=9,
         ha="left",
         va="bottom",
-        color=accent,
-        fontsize=10.5,
     )
-    mapp = cov["with_point"] + cov["place_only"]
-    ax.plot([0, mapp], [0.62, 0.62], color=rust, lw=1)
-    ax.text(
-        mapp + total * 0.006,
-        0.62,
-        "mappable with place-resolution: 16%  (10x more)",
+    fig.text(
+        0.055,
+        0.008,
+        "the 4,200 grey squares carry no location, and coverage() "
+        "reports them instead of dropping them.",
+        color=FAINT,
+        fontsize=9,
         ha="left",
-        va="center",
-        color=rust,
-        fontsize=10.5,
+        va="bottom",
     )
-    ax.text(
-        total - cov["no_geo"] / 2,
-        -0.42,
-        "84%, reported by coverage(), not silently dropped",
-        ha="center",
-        va="top",
-        color=ink_soft,
-        fontsize=10.5,
-    )
-    ax.set_xlim(-total * 0.01, total * 1.02)
-    ax.set_ylim(-1.15, 0.9)
-    ax.axis("off")
-    ax.set_title(
-        "One realistic city pull of 5,000 posts, sorted by the location they carry",
-        color=ink,
-        fontsize=12.5,
-        fontweight="bold",
-        loc="left",
-        pad=14,
-    )
-    fig.tight_layout()
-    fig.savefig(
-        out_dir / "geosocialx-coverage.png",
-        dpi=200,
-        bbox_inches="tight",
-        pad_inches=0.18,
-    )
+
+    fig.savefig(out_dir / "geosocialx-coverage.png", dpi=220, facecolor=PAPER)
     plt.close(fig)
 
-    # figure 2: same corpus, two maps
+    # ====================================================================
+    # figure 2 : two-panel San Francisco map
+    # ====================================================================
     outline = [
-        (-122.5107, 37.7080),
-        (-122.5136, 37.7770),
-        (-122.5090, 37.7900),
-        (-122.4780, 37.8110),
-        (-122.4450, 37.8080),
-        (-122.4190, 37.8090),
-        (-122.4030, 37.8080),
-        (-122.3980, 37.8060),
-        (-122.3770, 37.8080),
-        (-122.3820, 37.7900),
-        (-122.3870, 37.7660),
-        (-122.3770, 37.7400),
-        (-122.3830, 37.7200),
-        (-122.4050, 37.7080),
+        (-122.5045, 37.7080),
+        (-122.5090, 37.7250),
+        (-122.5110, 37.7520),
+        (-122.5100, 37.7710),
+        (-122.5130, 37.7800),
+        (-122.5085, 37.7875),
+        (-122.4945, 37.7885),
+        (-122.4790, 37.8110),
+        (-122.4720, 37.8092),
+        (-122.4660, 37.8100),
+        (-122.4480, 37.8086),
+        (-122.4360, 37.8082),
+        (-122.4230, 37.8088),
+        (-122.4130, 37.8086),
+        (-122.4030, 37.8082),
+        (-122.3945, 37.8076),
+        (-122.3855, 37.8080),
+        (-122.3820, 37.7965),
+        (-122.3865, 37.7900),
+        (-122.3878, 37.7820),
+        (-122.3860, 37.7720),
+        (-122.3862, 37.7620),
+        (-122.3800, 37.7520),
+        (-122.3768, 37.7380),
+        (-122.3782, 37.7280),
+        (-122.3835, 37.7200),
+        (-122.3880, 37.7120),
+        (-122.4055, 37.7082),
+        (-122.4320, 37.7085),
+        (-122.4720, 37.7080),
     ]
-    extent = (-122.525, -122.365, 37.700, 37.820)
+    extent = (-122.527, -122.363, 37.700, 37.822)
+    key = {
+        "Mission": (0.0, -0.005, "center", "top"),
+        "SoMa": (0.005, 0.001, "left", "center"),
+        "Financial District": (0.004, 0.003, "left", "bottom"),
+        "Marina": (0.0, 0.004, "center", "bottom"),
+        "Castro": (-0.005, -0.002, "right", "top"),
+        "Sunset": (0.0, -0.005, "center", "top"),
+        "Richmond": (0.0, 0.005, "center", "bottom"),
+    }
 
     def basemap(ax):
         ax.add_patch(
             MplPolygon(
                 outline,
                 closed=True,
-                facecolor="#f0eadd",
-                edgecolor=rule,
-                linewidth=1.0,
+                facecolor=LAND,
+                edgecolor=RULE,
+                linewidth=1.2,
+                joinstyle="round",
                 zorder=0,
             )
+        )
+        for name in key:
+            lon, lat = HOODS[name]
+            ax.plot(lon, lat, "o", ms=2.2, color=FAINT, alpha=0.6, zorder=1)
+        for name, (dx, dy, ha, va) in key.items():
+            lon, lat = HOODS[name]
+            ax.text(
+                lon + dx,
+                lat + dy,
+                name,
+                fontsize=6.2,
+                color=SOFT,
+                ha=ha,
+                va=va,
+                zorder=6,
+            )
+        ax.text(
+            -122.519,
+            37.735,
+            "PACIFIC\nOCEAN",
+            fontsize=6.5,
+            color=WATER,
+            ha="center",
+            va="center",
+            style="italic",
+            linespacing=1.3,
+            zorder=1,
+        )
+        ax.text(
+            -122.368,
+            37.812,
+            "SAN\nFRANCISCO\nBAY",
+            fontsize=6,
+            color=WATER,
+            ha="right",
+            va="top",
+            style="italic",
+            linespacing=1.3,
+            zorder=1,
         )
         ax.set_xlim(extent[0], extent[1])
         ax.set_ylim(extent[2], extent[3])
         ax.set_aspect(1.0 / np.cos(np.radians(37.76)))
         for s in ax.spines.values():
-            s.set_color(rule)
+            s.set_color(RULE)
+            s.set_linewidth(1.0)
         ax.set_xticks([])
         ax.set_yticks([])
         dlon = 2.0 / (111.32 * np.cos(np.radians(37.76)))
+        x0, y0 = -122.523, 37.706
         ax.plot(
-            [-122.520, -122.520 + dlon],
-            [37.706, 37.706],
-            color=ink_soft,
-            lw=2,
-            zorder=5,
+            [x0, x0 + dlon],
+            [y0, y0],
+            color=INK,
+            lw=2.6,
+            solid_capstyle="butt",
+            zorder=7,
         )
         ax.text(
-            -122.520 + dlon / 2,
-            37.709,
+            x0 + dlon / 2,
+            y0 + 0.0024,
             "2 km",
             ha="center",
             va="bottom",
-            color=ink_soft,
-            fontsize=8,
+            color=SOFT,
+            fontsize=6.8,
+            zorder=7,
+        )
+        nx = -122.516
+        ax.annotate(
+            "",
+            xy=(nx, 37.816),
+            xytext=(nx, 37.803),
+            zorder=7,
+            arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.1),
+        )
+        ax.text(
+            nx,
+            37.819,
+            "N",
+            ha="center",
+            va="bottom",
+            fontsize=7.5,
+            fontweight="bold",
+            color=INK,
+            zorder=7,
         )
 
-    fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.2, 4.5))
+    fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.4, 5.1))
+    fig.patch.set_facecolor(PAPER)
     for ax in (axL, axR):
+        ax.set_facecolor(PAPER)
         basemap(ax)
+
     xs = [p.longitude for p in naive]
     ys = [p.latitude for p in naive]
-    axL.scatter(
-        xs, ys, s=16, color=accent, alpha=0.85, edgecolor=paper, linewidth=0.4, zorder=4
-    )
-    axL.set_title(
-        f"Exact coordinates only\n{len(naive)} points · 1.6% of the corpus",
-        color=ink,
-        fontsize=11.5,
-        fontweight="bold",
-        pad=8,
-    )
     counts = Counter(
         (round(p.longitude, 4), round(p.latitude, 4))
         for p in honest
         if p.source == "place"
     )
+
+    axL.scatter(
+        xs, ys, s=15, color=MAROON, alpha=0.9, edgecolor=PAPER, linewidth=0.4, zorder=5
+    )
     for (lon, lat), c in counts.items():
         axR.scatter(
             lon,
             lat,
-            s=18 * np.sqrt(c),
+            s=16 * np.sqrt(c),
             facecolor="none",
-            edgecolor=rust,
-            linewidth=1.4,
+            edgecolor=STEEL,
+            linewidth=1.5,
             alpha=0.9,
-            zorder=3,
+            zorder=4,
         )
     axR.scatter(
-        xs, ys, s=16, color=accent, alpha=0.85, edgecolor=paper, linewidth=0.4, zorder=4
+        xs, ys, s=15, color=MAROON, alpha=0.9, edgecolor=PAPER, linewidth=0.4, zorder=5
     )
-    axR.set_title(
-        f"+ place-resolution\n{len(honest)} points · 16% · rings = coarse centroids",
-        color=ink,
-        fontsize=11.5,
-        fontweight="bold",
-        pad=8,
-    )
+
+    for ax, tag, sub in (
+        (axL, "(a)  exact coordinates only", "80 points  ·  1.6% of the corpus"),
+        (axR, "(b)  with place-resolution", "800 points  ·  16%  ·  10x more"),
+    ):
+        ax.text(
+            0.0,
+            1.055,
+            tag,
+            transform=ax.transAxes,
+            fontsize=10.5,
+            fontweight="bold",
+            color=INK,
+            ha="left",
+            va="bottom",
+            clip_on=False,
+        )
+        ax.text(
+            0.0,
+            1.012,
+            sub,
+            transform=ax.transAxes,
+            fontsize=8.5,
+            color=SOFT,
+            ha="left",
+            va="bottom",
+            clip_on=False,
+        )
+
     handles = [
         Line2D(
             [0],
             [0],
             marker="o",
-            color="none",
-            markerfacecolor=accent,
-            markeredgecolor=paper,
+            linestyle="none",
+            markerfacecolor=MAROON,
+            markeredgecolor=PAPER,
             markersize=7,
-            label="exact coordinate",
+            label="exact coordinate (one post)",
         ),
         Line2D(
             [0],
             [0],
             marker="o",
-            color="none",
+            linestyle="none",
             markerfacecolor="none",
-            markeredgecolor=rust,
-            markersize=10,
-            markeredgewidth=1.4,
-            label="place centroid (bigger = more posts)",
+            markeredgecolor=STEEL,
+            markersize=11,
+            markeredgewidth=1.5,
+            label="place centroid (bigger ring = more posts)",
         ),
     ]
     fig.legend(
@@ -406,23 +530,32 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
         loc="lower center",
         ncol=2,
         frameon=False,
-        fontsize=9.5,
-        bbox_to_anchor=(0.5, -0.02),
-        labelcolor=ink_soft,
+        fontsize=9,
+        bbox_to_anchor=(0.5, 0.0),
+        labelcolor=SOFT,
     )
+
     fig.suptitle(
-        "Same 5,000 posts, two maps: the honest one is fuller but coarser",
-        color=ink,
-        fontsize=12.5,
+        "Same 5,000 posts, mapped two ways",
+        color=INK,
+        fontsize=14,
         fontweight="bold",
-        x=0.02,
+        x=0.03,
         ha="left",
-        y=1.02,
+        y=0.99,
     )
-    fig.tight_layout(rect=(0, 0.03, 1, 1))
-    fig.savefig(
-        out_dir / "geosocialx-maps.png", dpi=200, bbox_inches="tight", pad_inches=0.18
+    fig.text(
+        0.03,
+        0.928,
+        "The honest map is ten times fuller but coarser, "
+        "snapped to neighbourhood centroids.",
+        color=SOFT,
+        fontsize=10,
+        ha="left",
     )
+    fig.subplots_adjust(left=0.02, right=0.98, top=0.80, bottom=0.09, wspace=0.06)
+
+    fig.savefig(out_dir / "geosocialx-maps.png", dpi=220, facecolor=PAPER)
     plt.close(fig)
     print(f"\nwrote geosocialx-coverage.png and geosocialx-maps.png to {out_dir}")
 
