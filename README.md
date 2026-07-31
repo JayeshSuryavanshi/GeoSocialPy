@@ -285,6 +285,22 @@ GeoSocialX/
 └── README.md
 ```
 
+## Citation
+
+If you use GeoSocialX in your work, please cite it — see [`CITATION.cff`](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/CITATION.cff) (GitHub renders a “Cite this repository” button), or:
+
+```bibtex
+@software{geosocialx,
+  author  = {Suryavanshi, Jayesh Kishor},
+  title   = {{GeoSocialX}: source-agnostic, coverage-honest geospatial analysis of geotagged social data},
+  year    = {2026},
+  url     = {https://github.com/JayeshSuryavanshi/GeoSocialX},
+  version = {0.8.0}
+}
+```
+
+A [JOSS](https://joss.theoj.org/)-style paper draft lives in [`paper/`](https://github.com/JayeshSuryavanshi/GeoSocialX/tree/main/paper). A Zenodo DOI will be added here once minted.
+
 ## License
 
 Released under the MIT License (see the [`LICENSE`](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/LICENSE) file).
