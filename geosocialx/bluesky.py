@@ -124,9 +124,11 @@ class BlueskyFetcher:
     """Fetch records from Bluesky / the AT Protocol — free, no paid tier.
 
     Needs the optional ``atproto`` SDK (``pip install "geosocialx[bluesky]"``).
-    Pass a ready ``atproto`` client, or a ``handle`` + ``app_password`` to build
-    one (public search works without login; app-password auth broadens access).
-    The returned records are plain dicts ready for :func:`read_bluesky`.
+    Pass a ready ``atproto`` client, or a **free** Bluesky ``handle`` +
+    ``app_password`` to build one. Post :meth:`search_posts` needs a logged-in
+    client (a Bluesky account is free — there is no paid tier); reading a known
+    repo's records with :meth:`list_records` is public and needs no login. The
+    returned records are plain dicts ready for :func:`read_bluesky`.
     """
 
     def __init__(
@@ -150,14 +152,21 @@ class BlueskyFetcher:
         self.client = client
 
     def search_posts(self, query: str, limit: int = 100) -> list[Mapping]:
-        """Search recent posts (public) and return them as dicts."""
+        """Search recent posts and return them as dicts.
+
+        Needs a logged-in client — build the fetcher with a (free) ``handle`` +
+        ``app_password``, as ``searchPosts`` is served with authentication.
+        """
         resp = self.client.app.bsky.feed.search_posts({"q": query, "limit": limit})
         return [_to_dict(p) for p in (getattr(resp, "posts", None) or [])]
 
     def list_records(
         self, repo: str, collection: str, limit: int = 100
     ) -> list[Mapping]:
-        """List a repo's records in a ``collection`` (e.g. a check-in collection)."""
+        """List a repo's records in a ``collection`` — public, no login needed.
+
+        e.g. a check-in collection on a known repo (``did:...``).
+        """
         resp = self.client.com.atproto.repo.list_records(
             {"repo": repo, "collection": collection, "limit": limit}
         )

@@ -196,18 +196,19 @@ All readers skip malformed or out-of-range coordinates rather than poisoning the
 ### `geosocialx.bluesky` — the open, free source
 
 - **`read_bluesky(records)`** — turn AT Protocol records (posts, check-ins, markers, …) into `GeoRecord`s by extracting a `community.lexicon.location.geo` object from anywhere inside each record.
-- **`BlueskyFetcher(client=None, *, handle=None, app_password=None)`** — fetch records via the `atproto` SDK (needs the `bluesky` extra). `search_posts(query, limit)` and `list_records(repo, collection, limit)` return dicts ready for `read_bluesky`.
+- **`BlueskyFetcher(client=None, *, handle=None, app_password=None)`** — fetch records via the `atproto` SDK (needs the `bluesky` extra). `search_posts(query, limit)` needs a **free** Bluesky login; `list_records(repo, collection, limit)` (reading a known repo's records) is public. Both return dicts ready for `read_bluesky`.
 
 ```python
 from geosocialx import BlueskyFetcher, read_bluesky, GeospatialAnalyzer
 
-fetcher = BlueskyFetcher()  # public reads; or pass handle=..., app_password=...
+# A free Bluesky account (handle + app password) is needed for post search:
+fetcher = BlueskyFetcher(handle="you.bsky.social", app_password="xxxx-xxxx-xxxx-xxxx")
 records = fetcher.search_posts("coffee", limit=100)
 points = read_bluesky(records)  # only the geotagged ones
 print(GeospatialAnalyzer(points).densest_cells(top=3))
 ```
 
-> **Note:** location on the AT Protocol is an *emerging* community standard, so geotagged records are still uncommon — but the source is open, free, and growing (no paid tier).
+> **Note:** location on the AT Protocol is an *emerging* community standard, so geotagged records are still uncommon — but the source is open, free (a Bluesky account costs nothing — no paid tier like X), and growing.
 
 ### `geosocialx.data_fetcher`
 
