@@ -10,9 +10,9 @@ GeoSocialX maps the geography of geotagged social & location data. Point it at *
 
 ## Overview
 
-GeoSocialX turns geotagged records into geospatial insight. The analysis, GeoJSON, and mapping layers all work on a common `GeoRecord`, which you can read from a **CSV**, a **GeoJSON** file, any iterable of dicts, or the **bundled sample datasets** — all with no API key. Fetching *new* geotagged posts from the X API v2 (via [Tweepy](https://www.tweepy.org/)) is one optional source among them.
+GeoSocialX turns geotagged records into geospatial insight. The analysis, GeoJSON, and mapping layers all work on a common `GeoRecord`, which you can read from a **CSV**, a **GeoJSON** file, any iterable of dicts, or the **bundled sample datasets** — all with no API key. Fetching *new* geotagged records from **Bluesky** (free, via the AT Protocol) or the X API v2 (paid, via [Tweepy](https://www.tweepy.org/)) are optional sources among them.
 
-> **Project status:** Alpha (0.6.0). The read → analyze → visualize pipeline is dependency-free (interactive maps use the optional `folium` extra). Only the *fetch-from-X* path needs a paid X API tier (Basic or higher); everything else runs on data you already have.
+> **Project status:** Alpha (0.7.0). The read → analyze → visualize pipeline is dependency-free (interactive maps use the optional `folium` extra). Reading, analyzing, visualizing, and fetching from **Bluesky** are all free; only the *X* fetch path needs a paid API tier (Basic or higher).
 
 ## Features
 
