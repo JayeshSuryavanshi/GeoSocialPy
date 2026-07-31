@@ -4,14 +4,25 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "GeoSocialX"
-version = "0.5.0"
-description = "Fetch geotagged tweets by geographic radius via the X API v2."
+version = "0.6.0"
+description = "Map the geography of geotagged social/location data — hotspots, time trends, GeoJSON & maps, dependency-free."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Jayesh Kishor Suryavanshi", email = "jayeshki@buffalo.edu" }]
-keywords = ["x", "x-api", "geospatial", "gis", "geojson", "tweets", "tweepy", "social-media"]
+keywords = [
+    "geospatial",
+    "gis",
+    "geojson",
+    "hotspots",
+    "spatial-analysis",
+    "location",
+    "mapping",
+    "csv",
+    "social-media",
+    "x-api",
+]
 dependencies = ["tweepy>=4.10"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -44,6 +55,7 @@ include = ["geosocialx*"]
 
 [tool.setuptools.package-data]
 geosocialx = ["py.typed"]
+"geosocialx.data" = ["*.geojson"]
 
 [tool.ruff]
 target-version = "py310"

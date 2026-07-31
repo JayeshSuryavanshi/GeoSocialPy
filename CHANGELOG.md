@@ -6,9 +6,31 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.6.0]
+
 ### Added
+- **Source-agnostic readers** (`geosocialx.sources`): `read_csv`, `read_geojson`,
+  and `read_records` turn any geotagged CSV / GeoJSON / list-of-dicts into
+  `GeoRecord`s — no X API involved. The analysis and visualization layers already
+  work on any `GeoRecord`.
+- **`load_sample("sf"|"nyc")`** + `sample_names()` — bundled synthetic datasets
+  ship in the wheel, so `pip install geosocialx` gives a keyless one-line demo.
 - A Colab quickstart notebook (`examples/quickstart.ipynb`) and an "Open in
-  Colab" badge — run the offline pipeline in-browser with no install or API key.
+  Colab" badge.
+
+### Changed
+- Generalized the core point type to **`GeoRecord`** (`id`, `longitude`,
+  `latitude`, `text`, `timestamp`, `author`, `source`). **`GeoPoint` remains an
+  alias**; reading the old names `tweet_id` / `created_at` / `author_id` still
+  works (read-only aliases), and positional construction is unchanged.
+  **Breaking:** constructing with the old *keyword* names
+  (`GeoPoint(tweet_id=…, created_at=…, author_id=…)`) is no longer supported and
+  raises `TypeError` — use `id` / `timestamp` / `author`.
+- GeoJSON export now uses generic property names (`id`, `timestamp`, `author`)
+  instead of the X-specific `tweet_id` / `created_at` / `author_id`.
+- Repositioned the package around "map the geography of any geotagged data";
+  fetching from X is now one optional source. Refreshed the description and
+  PyPI keywords.
 
 ## [0.5.0]
 
@@ -92,7 +114,8 @@ the GitHub repository was still named `GeoSocialPy`.
 Initial release (2023): fetch geotagged tweets by geographic radius and save
 them, built on the legacy v1.1 API.
 
-[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/JayeshSuryavanshi/GeoSocialX/compare/v0.2.0...v0.3.0

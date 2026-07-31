@@ -3,20 +3,20 @@ from __future__ import annotations
 import json
 from typing import Iterable
 
+from geosocialx.geo_record import GeoRecord
 from geosocialx.geospatial_analyzer import GeospatialAnalyzer
-from geosocialx.geospatial_extractor import GeoPoint
 
 
 class MapVisualizer:
-    """Turn :class:`GeoPoint` collections into GeoJSON or an interactive map.
+    """Turn :class:`GeoRecord` collections into GeoJSON or an interactive map.
 
     GeoJSON export uses only the standard library. The interactive HTML map
     needs the optional ``folium`` dependency (``pip install
     "geosocialx[maps]"``); it is imported lazily so this module always loads.
     """
 
-    def __init__(self, points: Iterable[GeoPoint]):
-        self.points: list[GeoPoint] = list(points)
+    def __init__(self, points: Iterable[GeoRecord]):
+        self.points: list[GeoRecord] = list(points)
 
     def to_geojson(self) -> dict:
         """Return a GeoJSON ``FeatureCollection`` of the points."""
@@ -28,10 +28,10 @@ class MapVisualizer:
                     "coordinates": [p.longitude, p.latitude],
                 },
                 "properties": {
-                    "tweet_id": p.tweet_id,
+                    "id": p.id,
                     "text": p.text,
-                    "created_at": p.created_at,
-                    "author_id": p.author_id,
+                    "timestamp": p.timestamp,
+                    "author": p.author,
                     "source": p.source,
                 },
             }
@@ -68,12 +68,12 @@ class MapVisualizer:
         center_lon, center_lat = GeospatialAnalyzer(self.points).centroid()
         fmap = folium.Map(location=[center_lat, center_lon], zoom_start=zoom_start)
 
-        markers = folium.FeatureGroup(name="Tweets")
+        markers = folium.FeatureGroup(name="Points")
         for p in self.points:
             folium.CircleMarker(
                 location=[p.latitude, p.longitude],
                 radius=4,
-                popup=(p.text or p.tweet_id),
+                popup=(p.text or p.id),
                 fill=True,
             ).add_to(markers)
         markers.add_to(fmap)

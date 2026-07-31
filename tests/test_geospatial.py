@@ -198,7 +198,7 @@ class VisualizerTests(unittest.TestCase):
         self.assertEqual(gj["type"], "FeatureCollection")
         feat = gj["features"][0]
         self.assertEqual(feat["geometry"]["coordinates"], [-122.4194, 37.7749])
-        self.assertEqual(feat["properties"]["tweet_id"], "1")
+        self.assertEqual(feat["properties"]["id"], "1")
         self.assertEqual(feat["properties"]["source"], "exact")
 
     def test_save_geojson(self):
