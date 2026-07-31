@@ -64,6 +64,16 @@ class ReadCsvTests(unittest.TestCase):
         self.assertEqual([r.id for r in recs], ["a"])
         self.assertEqual(recs[0].text, "hello")
 
+    def test_reads_bom_csv(self):
+        # Excel-style UTF-8 CSV with a leading BOM: default utf-8-sig strips it,
+        # so the first column ("longitude") is still matched.
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "bom.csv")
+            with open(path, "w", encoding="utf-8-sig") as f:
+                f.write("longitude,latitude,id\n-122.4,37.8,a\n")
+            recs = read_csv(path)
+        self.assertEqual([r.id for r in recs], ["a"])
+
 
 class ReadGeojsonTests(unittest.TestCase):
     @staticmethod
@@ -118,6 +128,41 @@ class ReadGeojsonTests(unittest.TestCase):
         recs = [GeoRecord("1", -122.4, 37.8, text="hi"), GeoRecord("2", -122.3, 37.7)]
         back = read_geojson(MapVisualizer(recs).to_geojson())
         self.assertEqual([r.id for r in back], ["1", "2"])
+
+    def test_accepts_3d_coordinates(self):
+        # RFC 7946 allows [lon, lat, altitude]; the altitude is ignored, not dropped.
+        fc = self._fc(
+            [
+                {
+                    "type": "Feature",
+                    "geometry": {"type": "Point", "coordinates": [-122.4, 37.8, 15.0]},
+                    "properties": {"id": "a"},
+                }
+            ]
+        )
+        recs = read_geojson(fc)
+        self.assertEqual(
+            [(r.id, r.longitude, r.latitude) for r in recs], [("a", -122.4, 37.8)]
+        )
+
+    def test_skips_malformed_features_without_crashing(self):
+        fc = self._fc(
+            [
+                {"type": "Feature", "geometry": ["bad"], "properties": {}},  # skip
+                {
+                    "type": "Feature",
+                    "geometry": {"type": "Point", "coordinates": [3.0, 4.0]},
+                    "properties": ["bad"],  # bad props -> kept with empty metadata
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {"type": "Point", "coordinates": [5.0, 6.0]},
+                    "properties": {"id": "ok"},
+                },
+            ]
+        )
+        recs = read_geojson(fc)  # must not raise
+        self.assertEqual({r.id for r in recs}, {"", "ok"})
 
 
 class SampleTests(unittest.TestCase):

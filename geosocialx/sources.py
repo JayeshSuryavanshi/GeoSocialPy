@@ -98,12 +98,15 @@ def read_csv(
     timestamp: str = "timestamp",
     author: str = "author",
     source: str = "source",
-    encoding: str = "utf-8",
+    encoding: str = "utf-8-sig",
 ) -> list[GeoRecord]:
     """Read a CSV with longitude/latitude columns into ``GeoRecord``s.
 
     Column names default to ``longitude``/``latitude``/``id``/… — override any
     that differ in your file (e.g. ``read_csv("x.csv", lon="lng", lat="lat")``).
+    The default ``utf-8-sig`` encoding transparently strips a leading BOM (as
+    written by Excel and many Windows tools) so the first column is read
+    correctly; it is otherwise identical to ``utf-8``.
     """
     with open(path, newline="", encoding=encoding) as f:
         return read_records(
@@ -124,7 +127,8 @@ def read_geojson(source: str | Mapping) -> list[GeoRecord]:
     ``source`` is a path to a ``.geojson`` file or an already-parsed mapping.
     Each ``Point`` feature becomes a record; its ``properties`` supply
     ``id``/``text``/``timestamp``/``author``/``source`` when present. Non-point
-    geometries and out-of-range coordinates are skipped.
+    geometries, malformed features, and out-of-range coordinates are skipped.
+    3D positions (``[lon, lat, altitude]``) are accepted; the altitude is ignored.
     """
     if isinstance(source, Mapping):
         data: Mapping = source
@@ -136,11 +140,12 @@ def read_geojson(source: str | Mapping) -> list[GeoRecord]:
     for feature in data.get("features", []) or []:
         if not isinstance(feature, Mapping):
             continue
-        geometry = feature.get("geometry") or {}
-        if geometry.get("type") != "Point":
+        geometry = feature.get("geometry")
+        if not isinstance(geometry, Mapping) or geometry.get("type") != "Point":
             continue
         coords = geometry.get("coordinates")
-        if not isinstance(coords, (list, tuple)) or len(coords) != 2:
+        # A GeoJSON position is [lon, lat] and may carry a third altitude value.
+        if not isinstance(coords, (list, tuple)) or len(coords) < 2:
             continue
         try:
             longitude, latitude = float(coords[0]), float(coords[1])
@@ -148,7 +153,9 @@ def read_geojson(source: str | Mapping) -> list[GeoRecord]:
             continue
         if not valid_lonlat(longitude, latitude):
             continue
-        props = feature.get("properties") or {}
+        props = feature.get("properties")
+        if not isinstance(props, Mapping):
+            props = {}
         out.append(
             GeoRecord(
                 id=_str_or_none(props.get("id"))
