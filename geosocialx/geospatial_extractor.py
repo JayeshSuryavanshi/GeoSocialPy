@@ -1,30 +1,11 @@
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
 from typing import Iterable, Mapping, Sequence
 
+from geosocialx.geo_record import GeoPoint, GeoRecord, valid_lonlat
 
-@dataclass
-class GeoPoint:
-    """A tweet reduced to an exact geographic point (WGS84).
-
-    ``source`` records how the point was obtained: ``"exact"`` for tweets that
-    carried precise ``geo.coordinates``, or ``"place"`` for tweets resolved to
-    the centroid of a referenced place's bounding box (a coarse approximation).
-    """
-
-    tweet_id: str
-    longitude: float
-    latitude: float
-    text: str | None = None
-    created_at: str | None = None
-    author_id: str | None = None
-    source: str = "exact"
-
-
-def _valid_lonlat(lon: float, lat: float) -> bool:
-    return -180.0 <= lon <= 180.0 and -90.0 <= lat <= 90.0
+__all__ = ["GeoPoint", "GeoRecord", "GeospatialExtractor"]
 
 
 class GeospatialExtractor:
@@ -72,30 +53,30 @@ class GeospatialExtractor:
             lon, lat = float(coords[0]), float(coords[1])
         except (TypeError, ValueError):
             return None
-        if not _valid_lonlat(lon, lat):
+        if not valid_lonlat(lon, lat):
             return None
         return (lon, lat)
 
     @classmethod
-    def _point_from_tweet(cls, tweet: dict) -> GeoPoint | None:
+    def _point_from_tweet(cls, tweet: dict) -> GeoRecord | None:
         coords = cls._exact_coords(tweet)
         if coords is None:
             return None
         lon, lat = coords
-        return GeoPoint(
-            tweet_id=str(tweet.get("id", "")),
+        return GeoRecord(
+            id=str(tweet.get("id", "")),
             longitude=lon,
             latitude=lat,
             text=tweet.get("text"),
-            created_at=tweet.get("created_at"),
-            author_id=(str(tweet["author_id"]) if tweet.get("author_id") else None),
+            timestamp=tweet.get("created_at"),
+            author=(str(tweet["author_id"]) if tweet.get("author_id") else None),
             source="exact",
         )
 
     @staticmethod
     def _point_from_place(
         tweet: dict, places: Mapping[str, Sequence[float]]
-    ) -> GeoPoint | None:
+    ) -> GeoRecord | None:
         geo = tweet.get("geo") or {}
         place_id = geo.get("place_id")
         if place_id is None:
@@ -108,15 +89,15 @@ class GeospatialExtractor:
         except (TypeError, ValueError):
             return None
         lon, lat = (west + east) / 2.0, (south + north) / 2.0
-        if not _valid_lonlat(lon, lat):
+        if not valid_lonlat(lon, lat):
             return None
-        return GeoPoint(
-            tweet_id=str(tweet.get("id", "")),
+        return GeoRecord(
+            id=str(tweet.get("id", "")),
             longitude=lon,
             latitude=lat,
             text=tweet.get("text"),
-            created_at=tweet.get("created_at"),
-            author_id=(str(tweet["author_id"]) if tweet.get("author_id") else None),
+            timestamp=tweet.get("created_at"),
+            author=(str(tweet["author_id"]) if tweet.get("author_id") else None),
             source="place",
         )
 
@@ -124,8 +105,8 @@ class GeospatialExtractor:
         self,
         tweets: Iterable[dict],
         places: Mapping[str, Sequence[float]] | None = None,
-    ) -> list[GeoPoint]:
-        """Return a :class:`GeoPoint` for every tweet with a usable location.
+    ) -> list[GeoRecord]:
+        """Return a :class:`GeoRecord` for every tweet with a usable location.
 
         Tweets with exact coordinates yield ``source="exact"`` points. If a
         ``places`` map (``{place_id: [west, south, east, north]}``) is provided,
@@ -133,7 +114,7 @@ class GeospatialExtractor:
         to their bounding-box centroid as ``source="place"`` points. Malformed or
         out-of-range coordinates are skipped rather than poisoning the results.
         """
-        points: list[GeoPoint] = []
+        points: list[GeoRecord] = []
         for tweet in tweets:
             point = self._point_from_tweet(tweet)
             if point is None and places:
