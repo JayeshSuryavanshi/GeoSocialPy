@@ -9,7 +9,7 @@ coordinates, a modest slice with only a place tag, and a large no-location
 remainder), then runs the shipping GeoSocialX API to show the core idea:
 
   * ``coverage()`` reports exact / place-only / no-geo *before* you map anything;
-  * ``extract_points(tweets)`` is the naive map — exact coordinates only;
+  * ``extract_points(tweets)`` is the naive map, exact coordinates only;
   * ``extract_points(tweets, places=...)`` recovers ~10x more by resolving place
     tags to their bounding-box centroid, and flags each point's ``source``.
 
@@ -95,7 +95,7 @@ BLOBS = [
 
 
 def build_corpus(seed: int = 20260731) -> tuple[list[dict], list[tuple[float, float]]]:
-    """Return (tweets, exact_points) — X-API-v2-shaped dicts, deterministically."""
+    """Return (tweets, exact_points): X-API-v2-shaped dicts, deterministically."""
     rng = random.Random(seed)
 
     def a_time() -> str:
@@ -199,7 +199,7 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
         }
     )
 
-    # figure 1 — the coverage cliff
+    # figure 1: the coverage cliff
     fig, ax = plt.subplots(figsize=(9.2, 2.9))
     total, left = cov["total"], 0
     for n, color in (
@@ -236,7 +236,7 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
     ax.text(
         cov["with_point"] / 2,
         0.44,
-        "what a naive map keeps — 1.6%",
+        "what a naive map keeps: 1.6%",
         ha="left",
         va="bottom",
         color=accent,
@@ -247,7 +247,7 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
     ax.text(
         mapp + total * 0.006,
         0.62,
-        "mappable with place-resolution — 16%  (10× more)",
+        "mappable with place-resolution: 16%  (10x more)",
         ha="left",
         va="center",
         color=rust,
@@ -256,7 +256,7 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
     ax.text(
         total - cov["no_geo"] / 2,
         -0.42,
-        "84% — reported by coverage(), not silently dropped",
+        "84%, reported by coverage(), not silently dropped",
         ha="center",
         va="top",
         color=ink_soft,
@@ -266,7 +266,7 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
     ax.set_ylim(-1.15, 0.9)
     ax.axis("off")
     ax.set_title(
-        "One realistic city pull — 5,000 posts — sorted by the location they carry",
+        "One realistic city pull of 5,000 posts, sorted by the location they carry",
         color=ink,
         fontsize=12.5,
         fontweight="bold",
@@ -282,7 +282,7 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
     )
     plt.close(fig)
 
-    # figure 2 — same corpus, two maps
+    # figure 2: same corpus, two maps
     outline = [
         (-122.5107, 37.7080),
         (-122.5136, 37.7770),
@@ -411,7 +411,7 @@ def _render_figures(cov: dict, naive: list, honest: list, out_dir: Path) -> None
         labelcolor=ink_soft,
     )
     fig.suptitle(
-        "Same 5,000 posts, two maps — the honest one is fuller but coarser",
+        "Same 5,000 posts, two maps: the honest one is fuller but coarser",
         color=ink,
         fontsize=12.5,
         fontweight="bold",
