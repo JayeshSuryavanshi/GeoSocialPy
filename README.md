@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![Python](https://img.shields.io/pypi/pyversions/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/LICENSE)
 
-GeoSocialX maps the geography of geotagged social & location data. Point it at **any** source — a CSV, a GeoJSON file, a list of records, or a dump of geotagged X (Twitter) posts — and get coverage stats, hotspots, time trends, GeoJSON, and interactive maps. The analysis core is pure standard library, and reading/analyzing data you already have needs **no API key**.
+GeoSocialX maps the geography of geotagged social & location data. Point it at **any** source — a CSV, a GeoJSON file, a list of records, geotagged **Bluesky** records (free/open), or a dump of geotagged X (Twitter) posts — and get coverage stats, hotspots, time trends, GeoJSON, and interactive maps. The analysis core is pure standard library, and reading/analyzing data you already have needs **no API key**.
 
 ![Density heatmap of geotagged posts across San Francisco](https://raw.githubusercontent.com/JayeshSuryavanshi/GeoSocialX/main/docs/example-map.png)
 
@@ -10,15 +10,16 @@ GeoSocialX maps the geography of geotagged social & location data. Point it at *
 
 ## Overview
 
-GeoSocialX turns geotagged records into geospatial insight. The analysis, GeoJSON, and mapping layers all work on a common `GeoRecord`, which you can read from a **CSV**, a **GeoJSON** file, any iterable of dicts, or the **bundled sample datasets** — all with no API key. Fetching *new* geotagged posts from the X API v2 (via [Tweepy](https://www.tweepy.org/)) is one optional source among them.
+GeoSocialX turns geotagged records into geospatial insight. The analysis, GeoJSON, and mapping layers all work on a common `GeoRecord`, which you can read from a **CSV**, a **GeoJSON** file, any iterable of dicts, or the **bundled sample datasets** — all with no API key. Fetching *new* geotagged records from **Bluesky** (free, via the AT Protocol) or the X API v2 (paid, via [Tweepy](https://www.tweepy.org/)) are optional sources among them.
 
-> **Project status:** Alpha (0.6.0). The read → analyze → visualize pipeline is dependency-free (interactive maps use the optional `folium` extra). Only the *fetch-from-X* path needs a paid X API tier (Basic or higher); everything else runs on data you already have.
+> **Project status:** Alpha (0.7.0). The read → analyze → visualize pipeline is dependency-free (interactive maps use the optional `folium` extra). Reading, analyzing, visualizing, and fetching from **Bluesky** are all free; only the *X* fetch path needs a paid API tier (Basic or higher).
 
 ## Features
 
 - **Read from anywhere:** load geotagged records from a **CSV** (`read_csv`), a **GeoJSON** FeatureCollection (`read_geojson`), any iterable of dicts (`read_records`), or the bundled sample datasets (`load_sample`) — no API needed. Malformed / out-of-range coordinates are skipped.
 - **Geospatial analysis:** bounding box, centroid, great-circle (haversine) distances, radius filtering, a lightweight grid-based hotspot finder, and temporal binning — all pure standard library.
 - **Visualization:** export points to GeoJSON (standard library) or render an interactive Leaflet map with markers and a density heatmap (optional `folium` extra).
+- **Bluesky / AT Protocol (optional, free):** `read_bluesky` extracts the emerging [`community.lexicon.location.geo`](https://lexicon.community/) lexicon from **any** AT Protocol record (check-ins, events, geo markers, post embeds), and `BlueskyFetcher` fetches them via the free `atproto` SDK — no paid tier. Geotagged Bluesky data is still sparse (an emerging standard), but it's open and growing.
 - **X API v2 integration (optional):** fetch recent posts within a lat/lon/radius via the `point_radius` operator; the geocode is validated locally so mistakes fail fast instead of wasting a paid API call. A coverage report shows how many posts carried exact coordinates vs. only a place reference, and place-only posts can be resolved to their bounding-box centroid (each point records its `source`, `"exact"` or `"place"`).
 
 > **Geo coverage caveat (X):** `point_radius` only matches posts that carry geo data, capped at 25 mi / 40 km. Only a small fraction of posts are geotagged with exact coordinates, so results are far sparser than a naïve keyword search — resolving `place_id` references recovers a coarser but larger share.
@@ -38,6 +39,7 @@ Optional extras:
 
 - `example` — [`python-dotenv`](https://pypi.org/project/python-dotenv/), to load credentials from a `.env` file (`pip install "geosocialx[example]"`).
 - `maps` — [`folium`](https://python-visualization.github.io/folium/), to render interactive Leaflet maps (`pip install "geosocialx[maps]"`). Not needed for GeoJSON export.
+- `bluesky` — [`atproto`](https://github.com/MarshalX/atproto), the AT Protocol SDK, to fetch geotagged Bluesky records (`pip install "geosocialx[bluesky]"`). Not needed to *read* AT Protocol records you already have.
 - `test` — [`coverage`](https://pypi.org/project/coverage/), for running the suite with coverage measurement (`pip install "geosocialx[test]"`).
 
 ## Installation
@@ -190,6 +192,23 @@ Everything centers on **`GeoRecord`** (`id`, `longitude`, `latitude`, `text`, `t
 - **`load_sample(name="sf")`** / **`sample_names()`** — bundled synthetic datasets (`"sf"`, `"nyc"`) for a keyless one-line demo.
 
 All readers skip malformed or out-of-range coordinates rather than poisoning the results.
+
+### `geosocialx.bluesky` — the open, free source
+
+- **`read_bluesky(records)`** — turn AT Protocol records (posts, check-ins, markers, …) into `GeoRecord`s by extracting a `community.lexicon.location.geo` object from anywhere inside each record.
+- **`BlueskyFetcher(client=None, *, handle=None, app_password=None)`** — fetch records via the `atproto` SDK (needs the `bluesky` extra). `search_posts(query, limit)` needs a **free** Bluesky login; `list_records(repo, collection, limit)` (reading a known repo's records) is public. Both return dicts ready for `read_bluesky`.
+
+```python
+from geosocialx import BlueskyFetcher, read_bluesky, GeospatialAnalyzer
+
+# A free Bluesky account (handle + app password) is needed for post search:
+fetcher = BlueskyFetcher(handle="you.bsky.social", app_password="xxxx-xxxx-xxxx-xxxx")
+records = fetcher.search_posts("coffee", limit=100)
+points = read_bluesky(records)  # only the geotagged ones
+print(GeospatialAnalyzer(points).densest_cells(top=3))
+```
+
+> **Note:** location on the AT Protocol is an *emerging* community standard, so geotagged records are still uncommon — but the source is open, free (a Bluesky account costs nothing — no paid tier like X), and growing.
 
 ### `geosocialx.data_fetcher`
 

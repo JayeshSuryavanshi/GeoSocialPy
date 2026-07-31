@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "GeoSocialX"
-version = "0.6.0"
+version = "0.7.0"
 description = "Map the geography of geotagged social/location data — hotspots, time trends, GeoJSON & maps, dependency-free."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -22,6 +22,8 @@ keywords = [
     "csv",
     "social-media",
     "x-api",
+    "bluesky",
+    "atproto",
 ]
 dependencies = ["tweepy>=4.10"]
 classifiers = [
@@ -39,6 +41,7 @@ classifiers = [
 [project.optional-dependencies]
 example = ["python-dotenv"]
 maps = ["folium>=0.14"]
+bluesky = ["atproto>=0.0.55"]
 test = ["coverage[toml]>=7"]
 
 [project.scripts]
@@ -68,7 +71,7 @@ select = ["E", "F", "I"]
 packages = ["geosocialx"]
 
 [[tool.mypy.overrides]]
-module = ["tweepy.*", "folium.*", "dotenv.*"]
+module = ["tweepy.*", "folium.*", "dotenv.*", "atproto.*"]
 ignore_missing_imports = true
 
 [tool.coverage.run]
