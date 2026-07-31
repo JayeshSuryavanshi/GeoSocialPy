@@ -1,6 +1,6 @@
 # GeoSocialX
 
-[![CI](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![Python](https://img.shields.io/pypi/pyversions/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/LICENSE)
+[![CI](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![Python](https://img.shields.io/pypi/pyversions/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21726579.svg)](https://doi.org/10.5281/zenodo.21726579)
 
 GeoSocialX maps the geography of geotagged social & location data. Point it at **any** source — a CSV, a GeoJSON file, a list of records, geotagged **Bluesky** records (free/open), or a dump of geotagged X (Twitter) posts — and get coverage stats, hotspots, time trends, GeoJSON, and interactive maps. The analysis core is pure standard library, and reading/analyzing data you already have needs **no API key**.
 
@@ -291,15 +291,17 @@ If you use GeoSocialX in your work, please cite it — see [`CITATION.cff`](http
 
 ```bibtex
 @software{geosocialx,
-  author  = {Suryavanshi, Jayesh Kishor},
-  title   = {{GeoSocialX}: source-agnostic, coverage-honest geospatial analysis of geotagged social data},
-  year    = {2026},
-  url     = {https://github.com/JayeshSuryavanshi/GeoSocialX},
-  version = {0.8.0}
+  author    = {Suryavanshi, Jayesh Kishor},
+  title     = {{GeoSocialX}: source-agnostic, coverage-honest geospatial analysis of geotagged social data},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.21726579},
+  url       = {https://doi.org/10.5281/zenodo.21726579},
+  version   = {0.8.0}
 }
 ```
 
-A [JOSS](https://joss.theoj.org/)-style paper draft lives in [`paper/`](https://github.com/JayeshSuryavanshi/GeoSocialX/tree/main/paper). A Zenodo DOI will be added here once minted.
+The DOI [`10.5281/zenodo.21726579`](https://doi.org/10.5281/zenodo.21726579) always resolves to the latest release. A [JOSS](https://joss.theoj.org/)-style paper draft lives in [`paper/`](https://github.com/JayeshSuryavanshi/GeoSocialX/tree/main/paper).
 
 ## License
 

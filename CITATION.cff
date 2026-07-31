@@ -25,7 +25,6 @@ keywords:
   - geojson
   - hotspots
   - python
+doi: 10.5281/zenodo.21726579
 version: 0.8.0
 date-released: "2026-07-31"
-# A Zenodo DOI can be added here (as `doi:` and under `identifiers:`) once the
-# GitHub–Zenodo integration is enabled and a release is cut.
