@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml/badge.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/actions/workflows/ci.yml) [![PyPI](https://img.shields.io/pypi/v/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![Python](https://img.shields.io/pypi/pyversions/geosocialx.svg)](https://pypi.org/project/geosocialx/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/JayeshSuryavanshi/GeoSocialX/blob/main/LICENSE) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21726579.svg)](https://doi.org/10.5281/zenodo.21726579)
 
-GeoSocialX maps the geography of geotagged social & location data. Point it at **any** source — a CSV, a GeoJSON file, a list of records, geotagged **Bluesky** records (free/open), or a dump of geotagged X (Twitter) posts — and get coverage stats, hotspots, time trends, GeoJSON, and interactive maps. The analysis core is pure standard library, and reading/analyzing data you already have needs **no API key**.
+GeoSocialX maps the geography of geotagged social & location data. Point it at **any** source — a CSV, a GeoJSON file, a list of records, geotagged **Bluesky** records (free/open), or a dump of geotagged X (Twitter) posts — and get coverage stats, hotspots, time trends, GeoJSON, and interactive maps. The analysis and GeoJSON layers are written against the Python standard library, and reading/analyzing data you already have needs **no API key**.
 
 ![Density heatmap of geotagged posts across San Francisco](https://raw.githubusercontent.com/JayeshSuryavanshi/GeoSocialX/main/docs/example-map.png)
 
@@ -12,7 +12,7 @@ GeoSocialX maps the geography of geotagged social & location data. Point it at *
 
 GeoSocialX turns geotagged records into geospatial insight. The analysis, GeoJSON, and mapping layers all work on a common `GeoRecord`, which you can read from a **CSV**, a **GeoJSON** file, any iterable of dicts, or the **bundled sample datasets** — all with no API key. Fetching *new* geotagged records from **Bluesky** (free, via the AT Protocol) or the X API v2 (paid, via [Tweepy](https://www.tweepy.org/)) are optional sources among them.
 
-> **Project status:** Alpha (0.7.0). The read → analyze → visualize pipeline is dependency-free (interactive maps use the optional `folium` extra). Reading, analyzing, visualizing, and fetching from **Bluesky** are all free; only the *X* fetch path needs a paid API tier (Basic or higher).
+> **Project status:** Alpha (0.7.0). The read → analyze → visualize logic uses only the Python standard library; interactive maps use the optional `folium` extra and Bluesky the optional `bluesky` extra. *(The package currently still installs one small runtime dependency, [`tweepy`](https://www.tweepy.org/), used only by the paid **X** fetch path — moving it to an optional extra so `import geosocialx` is dependency-free is planned.)* Reading, analyzing, visualizing, and fetching from **Bluesky** are all free; only the *X* fetch path needs a paid API tier (Basic or higher).
 
 ## Features
 
