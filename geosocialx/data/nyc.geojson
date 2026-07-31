@@ -1,0 +1,668 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.01317,
+     40.71548
+    ]
+   },
+   "properties": {
+    "id": "nyc1",
+    "text": "sample nyc post 1",
+    "timestamp": "2024-03-01T14:00:00Z",
+    "author": "user1001",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.97914,
+     40.75384
+    ]
+   },
+   "properties": {
+    "id": "nyc2",
+    "text": "sample nyc post 2",
+    "timestamp": "2024-03-01T14:00:00Z",
+    "author": "user1002",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96601,
+     40.78717
+    ]
+   },
+   "properties": {
+    "id": "nyc3",
+    "text": "sample nyc post 3",
+    "timestamp": "2024-03-01T08:00:00Z",
+    "author": "user1003",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98587,
+     40.74929
+    ]
+   },
+   "properties": {
+    "id": "nyc4",
+    "text": "sample nyc post 4",
+    "timestamp": "2024-03-01T12:00:00Z",
+    "author": "user1004",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.011,
+     40.71796
+    ]
+   },
+   "properties": {
+    "id": "nyc5",
+    "text": "sample nyc post 5",
+    "timestamp": "2024-03-01T17:00:00Z",
+    "author": "user1005",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96815,
+     40.7818
+    ]
+   },
+   "properties": {
+    "id": "nyc6",
+    "text": "sample nyc post 6",
+    "timestamp": "2024-03-01T12:00:00Z",
+    "author": "user1006",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.97179,
+     40.74977
+    ]
+   },
+   "properties": {
+    "id": "nyc7",
+    "text": "sample nyc post 7",
+    "timestamp": "2024-03-01T17:00:00Z",
+    "author": "user1007",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.0231,
+     40.72044
+    ]
+   },
+   "properties": {
+    "id": "nyc8",
+    "text": "sample nyc post 8",
+    "timestamp": "2024-03-01T12:00:00Z",
+    "author": "user1008",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96476,
+     40.77822
+    ]
+   },
+   "properties": {
+    "id": "nyc9",
+    "text": "sample nyc post 9",
+    "timestamp": "2024-03-01T22:00:00Z",
+    "author": "user1009",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96896,
+     40.77996
+    ]
+   },
+   "properties": {
+    "id": "nyc10",
+    "text": "sample nyc post 10",
+    "timestamp": "2024-03-01T10:00:00Z",
+    "author": "user1010",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96162,
+     40.77493
+    ]
+   },
+   "properties": {
+    "id": "nyc11",
+    "text": "sample nyc post 11",
+    "timestamp": "2024-03-01T13:00:00Z",
+    "author": "user1011",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.01355,
+     40.71358
+    ]
+   },
+   "properties": {
+    "id": "nyc12",
+    "text": "sample nyc post 12",
+    "timestamp": "2024-03-01T13:00:00Z",
+    "author": "user1012",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98599,
+     40.74585
+    ]
+   },
+   "properties": {
+    "id": "nyc13",
+    "text": "sample nyc post 13",
+    "timestamp": "2024-03-01T17:00:00Z",
+    "author": "user1013",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98022,
+     40.74213
+    ]
+   },
+   "properties": {
+    "id": "nyc14",
+    "text": "sample nyc post 14",
+    "timestamp": "2024-03-02T21:00:00Z",
+    "author": "user1014",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.95802,
+     40.78345
+    ]
+   },
+   "properties": {
+    "id": "nyc15",
+    "text": "sample nyc post 15",
+    "timestamp": "2024-03-02T20:00:00Z",
+    "author": "user1015",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9817,
+     40.75245
+    ]
+   },
+   "properties": {
+    "id": "nyc16",
+    "text": "sample nyc post 16",
+    "timestamp": "2024-03-02T19:00:00Z",
+    "author": "user1016",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96332,
+     40.77992
+    ]
+   },
+   "properties": {
+    "id": "nyc17",
+    "text": "sample nyc post 17",
+    "timestamp": "2024-03-02T14:00:00Z",
+    "author": "user1017",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98631,
+     40.75188
+    ]
+   },
+   "properties": {
+    "id": "nyc18",
+    "text": "sample nyc post 18",
+    "timestamp": "2024-03-02T20:00:00Z",
+    "author": "user1018",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.01284,
+     40.70359
+    ]
+   },
+   "properties": {
+    "id": "nyc19",
+    "text": "sample nyc post 19",
+    "timestamp": "2024-03-02T11:00:00Z",
+    "author": "user1019",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96249,
+     40.79099
+    ]
+   },
+   "properties": {
+    "id": "nyc20",
+    "text": "sample nyc post 20",
+    "timestamp": "2024-03-02T20:00:00Z",
+    "author": "user1020",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98118,
+     40.74629
+    ]
+   },
+   "properties": {
+    "id": "nyc21",
+    "text": "sample nyc post 21",
+    "timestamp": "2024-03-02T14:00:00Z",
+    "author": "user1021",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.01178,
+     40.70818
+    ]
+   },
+   "properties": {
+    "id": "nyc22",
+    "text": "sample nyc post 22",
+    "timestamp": "2024-03-02T15:00:00Z",
+    "author": "user1022",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96782,
+     40.78077
+    ]
+   },
+   "properties": {
+    "id": "nyc23",
+    "text": "sample nyc post 23",
+    "timestamp": "2024-03-02T19:00:00Z",
+    "author": "user1023",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96341,
+     40.78085
+    ]
+   },
+   "properties": {
+    "id": "nyc24",
+    "text": "sample nyc post 24",
+    "timestamp": "2024-03-02T18:00:00Z",
+    "author": "user1024",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.99142,
+     40.73131
+    ]
+   },
+   "properties": {
+    "id": "nyc25",
+    "text": "sample nyc post 25",
+    "timestamp": "2024-03-02T16:00:00Z",
+    "author": "user1025",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98705,
+     40.74247
+    ]
+   },
+   "properties": {
+    "id": "nyc26",
+    "text": "sample nyc post 26",
+    "timestamp": "2024-03-02T19:00:00Z",
+    "author": "user1026",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98336,
+     40.74879
+    ]
+   },
+   "properties": {
+    "id": "nyc27",
+    "text": "sample nyc post 27",
+    "timestamp": "2024-03-03T18:00:00Z",
+    "author": "user1027",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.01439,
+     40.71353
+    ]
+   },
+   "properties": {
+    "id": "nyc28",
+    "text": "sample nyc post 28",
+    "timestamp": "2024-03-03T22:00:00Z",
+    "author": "user1028",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98724,
+     40.75501
+    ]
+   },
+   "properties": {
+    "id": "nyc29",
+    "text": "sample nyc post 29",
+    "timestamp": "2024-03-03T14:00:00Z",
+    "author": "user1029",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98365,
+     40.74577
+    ]
+   },
+   "properties": {
+    "id": "nyc30",
+    "text": "sample nyc post 30",
+    "timestamp": "2024-03-03T16:00:00Z",
+    "author": "user1030",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96559,
+     40.78731
+    ]
+   },
+   "properties": {
+    "id": "nyc31",
+    "text": "sample nyc post 31",
+    "timestamp": "2024-03-03T20:00:00Z",
+    "author": "user1031",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96725,
+     40.779
+    ]
+   },
+   "properties": {
+    "id": "nyc32",
+    "text": "sample nyc post 32",
+    "timestamp": "2024-03-03T20:00:00Z",
+    "author": "user1032",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98901,
+     40.7406
+    ]
+   },
+   "properties": {
+    "id": "nyc33",
+    "text": "sample nyc post 33",
+    "timestamp": "2024-03-03T20:00:00Z",
+    "author": "user1033",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98556,
+     40.72945
+    ]
+   },
+   "properties": {
+    "id": "nyc34",
+    "text": "sample nyc post 34",
+    "timestamp": "2024-03-03T22:00:00Z",
+    "author": "user1034",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.98092,
+     40.74312
+    ]
+   },
+   "properties": {
+    "id": "nyc35",
+    "text": "sample nyc post 35",
+    "timestamp": "2024-03-03T10:00:00Z",
+    "author": "user1035",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.99097,
+     40.7349
+    ]
+   },
+   "properties": {
+    "id": "nyc36",
+    "text": "sample nyc post 36",
+    "timestamp": "2024-03-03T20:00:00Z",
+    "author": "user1036",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.01097,
+     40.71543
+    ]
+   },
+   "properties": {
+    "id": "nyc37",
+    "text": "sample nyc post 37",
+    "timestamp": "2024-03-03T16:00:00Z",
+    "author": "user1037",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.96558,
+     40.78363
+    ]
+   },
+   "properties": {
+    "id": "nyc38",
+    "text": "sample nyc post 38",
+    "timestamp": "2024-03-03T13:00:00Z",
+    "author": "user1038",
+    "source": "exact"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9802,
+     40.74289
+    ]
+   },
+   "properties": {
+    "id": "nyc39",
+    "text": "sample nyc post 39",
+    "timestamp": "2024-03-03T15:00:00Z",
+    "author": "user1039",
+    "source": "exact"
+   }
+  }
+ ]
+}
