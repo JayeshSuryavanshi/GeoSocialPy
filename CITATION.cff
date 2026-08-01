@@ -13,7 +13,7 @@ type: software
 authors:
   - family-names: Suryavanshi
     given-names: Jayesh Kishor
-    orcid: ""
+    orcid: "https://orcid.org/0009-0006-2663-4628"
 license: MIT
 repository-code: "https://github.com/JayeshSuryavanshi/GeoSocialX"
 url: "https://pypi.org/project/geosocialx/"

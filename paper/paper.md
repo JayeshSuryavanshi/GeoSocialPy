@@ -9,7 +9,7 @@ tags:
   - AT Protocol
 authors:
   - name: Jayesh Kishor Suryavanshi
-    orcid: 0000-0000-0000-0000
+    orcid: 0009-0006-2663-4628
     affiliation: 1
 affiliations:
   - name: Independent researcher
