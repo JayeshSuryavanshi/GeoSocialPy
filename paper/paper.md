@@ -32,7 +32,7 @@ interactive maps and the network fetchers are optional extras.
 The package is deliberately *source-agnostic*: readers normalise each input into
 a common `GeoRecord`, so the same analysis and visualization code serves any
 provider. This decoupling matters because the dominant source of geotagged
-social data — the Twitter/X API — moved behind a paid tier in 2023, which
+social data (the Twitter/X API) moved behind a paid tier in 2023, which
 hollowed out the ecosystem of tools built on it. `GeoSocialX` treats X as one
 optional source and supports free alternatives (a CSV or GeoJSON you already
 have, or the open AT Protocol) so that analysis is not gated on a paid API.
@@ -52,19 +52,19 @@ results as if they were representative. `GeoSocialX` makes this explicit: its
 *no-geo* buckets that sum to the input total, and every emitted point records
 its `source` (an exact coordinate versus a coordinate derived from a place
 bounding box). Making the geographic coverage of a corpus a first-class,
-inspectable output — rather than an unstated side effect of filtering — is the
+inspectable output (rather than an unstated side effect of filtering) is the
 package's primary methodological contribution.
 
 Second, **existing tooling is either heavy or provider-locked.** General
 geospatial stacks (e.g. `GeoPandas` [@jordahl2020geopandas], built on
 `shapely`) are powerful but introduce compiled dependencies unsuited to quick
 scripts, teaching, or constrained environments; provider clients such as
-`tweepy` handle collection but not analysis; and the one closely comparable
-social-geo package is an unmaintained, database-backed research pipeline tied to
-the retired Twitter v1.1 API. `GeoSocialX` fills the gap with a lightweight,
+`tweepy` [@tweepy] handle collection but not analysis; and older
+social-media-geo tooling was typically database-backed and tied to the retired
+Twitter v1.1 API, so it no longer runs against current endpoints. `GeoSocialX` fills the gap with a lightweight,
 dependency-light, source-agnostic tool that does the specific, tedious plumbing
-— coordinate ordering and validation, place-to-point resolution, honest coverage
-accounting, and normalisation across providers — and produces standard GeoJSON
+(coordinate ordering and validation, place-to-point resolution, honest coverage
+accounting, and normalisation across providers) and produces standard GeoJSON
 for interoperability with existing GIS software.
 
 # Functionality
@@ -78,15 +78,15 @@ The package exposes:
   Protocol (extracting the `community.lexicon.location.geo` lexicon), and a
   `GeospatialExtractor` / fetcher for the X API v2.
 - **Analysis** (`GeospatialAnalyzer`): bounding box, centroid, great-circle
-  distance, radius filtering, grid-based hotspots, and temporal binning — pure
-  standard library.
+  distance, radius filtering, grid-based hotspots, and temporal binning (pure
+  standard library).
 - **Visualization** (`MapVisualizer`): GeoJSON export (standard library) and an
-  optional interactive `folium` map.
+  optional interactive `folium` [@folium] map.
 
 `GeoSocialX` is tested (network-free unit tests, mocked provider clients),
 type-checked, and published to the Python Package Index. Its intended users are
 social scientists, data analysts, journalists, students, and OSINT researchers
-who need to summarise where — and when — geotagged social activity occurred,
+who need to summarise where (and when) geotagged social activity occurred,
 without adopting a heavy geospatial stack or paying for API access to analyse
 data they already have.
 
